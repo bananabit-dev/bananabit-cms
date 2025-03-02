@@ -1,0 +1,25 @@
+#blog {
+  margin-top: 50px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;
+}
+
+#blog a {
+  color: #4dabf7;
+  text-decoration: none;
+}
+
+#blog a:hover {
+  text-decoration: underline;
+}
+
+.blog-navigation {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #2a2e37;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}

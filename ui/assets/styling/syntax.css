@@ -1,0 +1,196 @@
+/* Direct class selectors for maximum specificity */
+.syntax-keyword {
+  color: #ff79c6 !important;
+  font-weight: bold !important;
+}
+
+.syntax-function {
+  color: #50fa7b !important;
+}
+
+.syntax-comment {
+  color: #6272a4 !important;
+  font-style: italic !important;
+}
+
+.syntax-string {
+  color: #f1fa8c !important;
+}
+
+.syntax-number {
+  color: #bd93f9 !important;
+}
+
+.syntax-type {
+  color: #8be9fd !important;
+  font-style: italic !important;
+}
+
+.syntax-text {
+  color: #f8f8f2 !important;
+}
+
+.syntax-attribute {
+  color: #50fa7b !important;
+  font-style: italic !important;
+}
+
+.syntax-bool {
+  color: #bd93f9 !important;
+  font-weight: bold !important;
+}
+
+/* Syntax highlighting container */
+.syntax-highlighted {
+  background-color: #282a36 !important;
+  color: #f8f8f2 !important;
+  border-radius: 5px !important;
+  padding: 1em !important;
+  overflow-x: auto !important;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
+  font-size: 0.9em !important;
+  line-height: 1.5 !important;
+}
+
+/* HTML specific */
+.language-html .syntax-keyword {
+  color: #ff79c6 !important;
+}
+
+.language-html .syntax-string {
+  color: #f1fa8c !important;
+}
+
+.language-html .syntax-comment {
+  color: #6272a4 !important;
+  font-style: italic !important;
+}
+
+/* CSS specific */
+.language-css .syntax-type {
+  color: #ff79c6 !important;
+}
+
+.language-css .syntax-keyword {
+  color: #8be9fd !important;
+}
+
+.language-css .syntax-number {
+  color: #bd93f9 !important;
+}
+
+.language-css .syntax-string {
+  color: #f1fa8c !important;
+}
+
+.language-css .syntax-comment {
+  color: #6272a4 !important;
+  font-style: italic !important;
+}
+
+/* JavaScript specific */
+.language-js .syntax-keyword,
+.language-javascript .syntax-keyword {
+  color: #ff79c6 !important;
+  font-weight: bold !important;
+}
+
+.language-js .syntax-function,
+.language-javascript .syntax-function {
+  color: #50fa7b !important;
+}
+
+.language-js .syntax-string,
+.language-javascript .syntax-string {
+  color: #f1fa8c !important;
+}
+
+.language-js .syntax-number,
+.language-javascript .syntax-number {
+  color: #bd93f9 !important;
+}
+
+.language-js .syntax-bool,
+.language-javascript .syntax-bool {
+  color: #bd93f9 !important;
+  font-weight: bold !important;
+}
+
+.language-js .syntax-type,
+.language-javascript .syntax-type {
+  color: #8be9fd !important;
+}
+
+.language-js .syntax-comment,
+.language-javascript .syntax-comment {
+  color: #6272a4 !important;
+  font-style: italic !important;
+}
+
+/* Make code blocks responsive */
+.markdown-code-block {
+  max-width: 100% !important;
+  margin: 1.5em 0 !important;
+  border-radius: 5px !important;
+  overflow: hidden !important; /* Hide scrollbar unless needed */
+}
+
+/* Completely hide scrollbar for no-scroll class */
+.markdown-code-block.no-scroll pre {
+  overflow-x: hidden !important;
+}
+
+.markdown-code-block.no-scroll pre::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Only show scrollbar on hover for needs-scroll class */
+.markdown-code-block.needs-scroll pre {
+  overflow-x: auto !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: #6272a4 #282a36 !important;
+}
+
+.markdown-code-block.needs-scroll pre:not(:hover)::-webkit-scrollbar {
+  display: none !important;
+}
+
+.markdown-code-block.needs-scroll pre:hover::-webkit-scrollbar {
+  height: 8px !important;
+  background-color: #282a36 !important;
+}
+
+.markdown-code-block.needs-scroll pre:hover::-webkit-scrollbar-thumb {
+  background-color: #6272a4 !important;
+  border-radius: 4px !important;
+}
+
+/* Line numbers styling */
+.line-numbers .line-number {
+  display: inline-block !important;
+  width: 2em !important;
+  padding-right: 1em !important;
+  text-align: right !important;
+  color: #6272a4 !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  touch-action: none !important;
+  background-color: #282a36 !important;
+  border-right: 1px solid #44475a !important;
+  margin-right: 0.5em !important;
+}
+
+.line-numbers .line-content {
+  display: inline-block !important;
+  width: calc(100% - 3em) !important;
+}
+
+.code-line {
+  display: block !important;
+  width: 100% !important;
+  white-space: pre !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
