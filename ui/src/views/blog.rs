@@ -1,23 +1,24 @@
 use dioxus::prelude::*;
+use futures::executor::block_on;
+
 use crate::Markdown;
-use crate::Route;
-
-/// Sample markdown content for demonstration
-fn get_blog_content(id: i32) -> String {
-    match id {
-        0 => "/assets/blog/0.md".to_string(),
-        _ => "/assets/blog/none.md".to_string(),
-    }
-}
-
 #[component]
 pub fn Blog(id: i32) -> Element {
-    // Get the blog content for this ID
-    let markdown_content = get_blog_content(id);
-    
-    // Define the base path for images (if you have local images)
+    let content = use_resource(move || async move {
+        let path = match id {
+            0 => "/assets/blog/0.md",
+            _ => "/assets/blog/none.md",
+        };
+
+        // Use gloo-net for WASM instead of reqwest
+        match gloo_net::http::Request::get(path).send().await {
+            Ok(resp) => resp.text().await.unwrap_or_else(|_| "Error reading file".to_string()),
+            Err(_) => "Error fetching blog".to_string(),
+        }
+    });
+
     let image_base_path = "/assets/images";
-    
+
     rsx! {
         document::Link { rel: "stylesheet", href: "/assets/blog.css"}
         document::Link { rel: "stylesheet", href: "/assets/styling/markdown.css"}
@@ -27,14 +28,18 @@ pub fn Blog(id: i32) -> Element {
             id: "blog",
             class: "markdown-container",
 
-            // Render the markdown content using our enhanced component
-            Markdown {
-                image_base_path: Some(image_base_path.to_string()),
-                file_path: Some(markdown_content),
-                id: Some(format!("blog-content-{}", id))
+            match content.value() {
+                Some(Some(markdown)) => rsx! {
+                    Markdown {
+                        content: Some(markdown.clone()),
+                        image_base_path: Some(image_base_path.to_string()),
+                        id: Some(format!("blog-content-{}", id))
+                    }
+                },
+                Some(None) => rsx! { p { "Error loading blog" } },
+                None => rsx! { p { "Loading..." } }
             }
 
-            // Navigation links
             div {
                 class: "blog-navigation",
                 Link {
@@ -43,15 +48,9 @@ pub fn Blog(id: i32) -> Element {
                     "Previous"
                 }
                 span { " | " }
-                Link {
-                    to: Route::Home {},
-                    "Home"
-                }
+                Link { to: Route::Home {}, "Home" }
                 span { " | " }
-                Link {
-                    to: Route::Blog { id: id + 1 },
-                    "Next"
-                }
+                Link { to: Route::Blog { id: id + 1 }, "Next" }
             }
         }
     }

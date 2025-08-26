@@ -37,6 +37,7 @@ use std::path::Path;
 ///     }
 /// }
 /// ```
+
 #[component]
 pub fn Markdown(
     content: Option<String>,

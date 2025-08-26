@@ -5,5 +5,8 @@ edition = "2021"
 
 [dependencies]
 dioxus = { workspace = true, features = ["router"]  }
+futures = "0.3.31"
+gloo-net = "0.6.0"
 pulldown-cmark = "0.9.3"
+reqwest = "0.12.23"
 syntect = { version = "5.1.0", default-features = false, features = ["default-fancy"] }
