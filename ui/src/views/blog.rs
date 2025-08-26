@@ -30,7 +30,7 @@ pub fn Blog(id: i32) -> Element {
             // Render the markdown content using our enhanced component
             Markdown {
                 image_base_path: Some(image_base_path.to_string()),
-                file_path: Some(markdown_content)
+                file_path: Some(markdown_content),
                 id: Some(format!("blog-content-{}", id))
             }
 

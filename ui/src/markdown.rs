@@ -51,14 +51,14 @@ pub fn Markdown(
             Err(e) => {
                 eprintln!("Error reading markdown file: {}", e);
                 // Fallback to the provided content or empty string
-                content.clone()
+                content.clone().unwrap()
             }
         }
     } else {
-        content.clone() // improve the codee here //TODO:
+        content.clone().unwrap() // improve the codee here //TODO:
     };
     let options = Options::all();
-    let c = content.clone();
+    let c = content.clone().unwrap();
     let parser = Parser::new_ext(&c, options);
     
     let mut events = Vec::new();
