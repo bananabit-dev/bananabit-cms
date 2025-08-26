@@ -209,6 +209,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "ba-server"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "dioxus",
+ "dioxus-server",
+ "tokio",
+ "tower-http",
+ "ui",
+]
+
+[[package]]
 name = "backtrace"
 version = "0.3.74"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5260,7 +5272,6 @@ dependencies = [
 name = "ui"
 version = "0.1.0"
 dependencies = [
- "api",
  "dioxus",
  "pulldown-cmark",
  "syntect",
@@ -5572,6 +5583,7 @@ dependencies = [
 name = "web"
 version = "0.1.0"
 dependencies = [
+ "ba-server",
  "dioxus",
  "ui",
 ]

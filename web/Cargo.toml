@@ -6,8 +6,10 @@ edition = "2021"
 [dependencies]
 dioxus = { workspace = true, features = ["fullstack","router"] }
 ui = { workspace = true }
+ba-server = { workspace = true , optional = true}
+
 
 [features]
 default = []
 web = ["dioxus/web"]
-server = ["dioxus/server"]
+server = ["dioxus/server", "ba-server"]

@@ -4,6 +4,8 @@ use pulldown_cmark::{Options, Parser, Tag, Event};
 use syntect::highlighting::{ThemeSet, Style};
 use syntect::parsing::SyntaxSet;
 use std::time;
+use std::fs;
+use std::path::Path;
 
 /// Component for rendering markdown content safely.
 /// 
@@ -40,9 +42,24 @@ pub fn Markdown(
     content: String,
     #[props(optional)] image_base_path: Option<String>,
     #[props(optional)] id: Option<String>,
+    #[props(optional)] file_path: Option<String>,
 ) -> Element {
+    // If file_path is provided, read the file content and override the content prop
+    let final_content = if let Some(path) = file_path {
+        match fs::read_to_string(Path::new(&path)) {
+            Ok(file_content) => file_content,
+            Err(e) => {
+                eprintln!("Error reading markdown file: {}", e);
+                // Fallback to the provided content or empty string
+                content.clone()
+            }
+        }
+    } else {
+        content.clone() // improve the codee here //TODO:
+    };
     let options = Options::all();
-    let parser = Parser::new_ext(&content, options);
+    let c = content.clone();
+    let parser = Parser::new_ext(&c, options);
     
     let mut events = Vec::new();
     for event in parser {
@@ -57,7 +74,7 @@ pub fn Markdown(
             .as_millis())
     });
     
-    rsx! {
+     rsx! {
         div {
             class: "markdown-container",
             id: {markdown_id},
