@@ -27,7 +27,7 @@ FROM chef AS runtime
 COPY --from=builder /app/target/dx/web/release/web/ /usr/local/app
 
 # Copy all assets from packages/ui/assets to /usr/local/app/public/assets
-COPY --from=builder /app/packages/ui/assets/ /usr/local/app/public/assets/
+COPY --from=builder /app/ui/assets/ /usr/local/app/public/assets/
 
 ENV PORT=8080
 ENV IP=0.0.0.0

@@ -39,7 +39,7 @@ use std::path::Path;
 /// ```
 #[component]
 pub fn Markdown(
-    content: String,
+    #[props(optional)] content: Option<String>,
     #[props(optional)] image_base_path: Option<String>,
     #[props(optional)] id: Option<String>,
     #[props(optional)] file_path: Option<String>,

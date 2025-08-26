@@ -5,27 +5,8 @@ use crate::Route;
 /// Sample markdown content for demonstration
 fn get_blog_content(id: i32) -> String {
     match id {
-        1 => "/assets/blog/1.md".to_string(),
-        _ => format!(r#"
-# Blog {id}
-
-This is blog post number {id}.
-
-## Dynamic Content
-
-- This is a dynamically generated blog post
-- You can navigate to other posts using the links below
-- Try posts 1-3 for special content examples
-
-```rust
-// This is a code block in blog post {id}
-fn get_blog_id() -> i32 {{
-    {id}
-}}
-```
-
-[Go to Blog 1](/blog/1)
-        "#)
+        0 => "/assets/blog/0.md".to_string(),
+        _ => "/assets/blog/none.md".to_string(),
     }
 }
 
@@ -48,8 +29,8 @@ pub fn Blog(id: i32) -> Element {
 
             // Render the markdown content using our enhanced component
             Markdown {
-                content: markdown_content,
                 image_base_path: Some(image_base_path.to_string()),
+                file_path: Some(markdown_content)
                 id: Some(format!("blog-content-{}", id))
             }
 
