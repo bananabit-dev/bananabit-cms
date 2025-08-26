@@ -39,11 +39,14 @@ use std::path::Path;
 /// ```
 #[component]
 pub fn Markdown(
-    #[props(optional)] content: Option<String>,
+    content: Option<String>,
     #[props(optional)] image_base_path: Option<String>,
     #[props(optional)] id: Option<String>,
     #[props(optional)] file_path: Option<String>,
 ) -> Element {
+    // Handle the content prop - if it's None, use empty string
+    let content_str = content.unwrap_or_else(|| String::new());
+    
     // If file_path is provided, read the file content and override the content prop
     let final_content = if let Some(path) = file_path {
         match fs::read_to_string(Path::new(&path)) {
@@ -51,15 +54,15 @@ pub fn Markdown(
             Err(e) => {
                 eprintln!("Error reading markdown file: {}", e);
                 // Fallback to the provided content or empty string
-                content.clone().unwrap()
+                content_str.clone()
             }
         }
     } else {
-        content.clone().unwrap() // improve the codee here //TODO:
+        content_str.clone()
     };
+    
     let options = Options::all();
-    let c = content.clone().unwrap();
-    let parser = Parser::new_ext(&c, options);
+    let parser = Parser::new_ext(&final_content, options);
     
     let mut events = Vec::new();
     for event in parser {
@@ -74,7 +77,7 @@ pub fn Markdown(
             .as_millis())
     });
     
-     rsx! {
+    rsx! {
         div {
             class: "markdown-container",
             id: {markdown_id},
@@ -82,6 +85,7 @@ pub fn Markdown(
         }
     }
 }
+
 
 /// Get syntax highlighting components (SyntaxSet and ThemeSet)
 fn get_syntax_highlighter() -> &'static (SyntaxSet, ThemeSet) {
