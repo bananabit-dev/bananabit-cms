@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+use crate::navbar::Route;
 use futures::executor::block_on;
 
 use crate::Markdown;
@@ -28,16 +29,15 @@ pub fn Blog(id: i32) -> Element {
             id: "blog",
             class: "markdown-container",
 
-            match content.value() {
-                Some(Some(markdown)) => rsx! {
+            match content.read().as_ref() {
+                Some(markdown) => rsx! {
                     Markdown {
                         content: Some(markdown.clone()),
                         image_base_path: Some(image_base_path.to_string()),
                         id: Some(format!("blog-content-{}", id))
                     }
                 },
-                Some(None) => rsx! { p { "Error loading blog" } },
-                None => rsx! { p { "Loading..." } }
+                None => rsx! { p { "Loading Blog..." } }
             }
 
             div {
