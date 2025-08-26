@@ -5,15 +5,15 @@ members = [
     "web",
     "desktop",
     "mobile",
-    "server",
+    "api",
 ]
 
 [workspace.dependencies]
-dioxus = { version = "0.6.0" }
+dioxus = { version = "0.7.0-rc.0" }
 
 # workspace
 ui = { path = "ui" }
-server = { path = "server" }
+api = { path = "api" }
 
 [profile]
 
@@ -21,7 +21,7 @@ server = { path = "server" }
 inherits = "dev"
 opt-level = 1
 
-[profile.server-dev]
+[profile.api-dev]
 inherits = "dev"
 
 [profile.android-dev]

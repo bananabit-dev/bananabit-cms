@@ -65,28 +65,6 @@
   margin-bottom: 0.5em;
 }
 
-/* Code block styling */
-pre {
-  background-color: #282a36;
-  border-radius: 6px;
-  padding: 1em;
-  overflow-x: auto;
-  margin: 1em 0;
-  color: #f8f8f2;
-  font-family: 'Fira Code', monospace;
-}
-
-code {
-  font-family: 'Fira Code', monospace;
-}
-
-/* Ensure code blocks have proper background and text colors */
-pre code,
-.markdown-code-block {
-  background-color: #282a36 !important;
-  color: #f8f8f2 !important;
-}
-
 /* Code blocks */
 .markdown-code-block {
   background-color: #282a36;
@@ -182,6 +160,25 @@ figure.markdown-image-container figcaption {
   margin: 2em 0;
 }
 
+.markdown-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+
+.markdown-table-header {
+  border-bottom: 2px solid #2a2e37;
+  padding: 8px;
+  text-align: left;
+}
+
+.markdown-table-cell {
+  border: 1px solid #2a2e37;
+  padding: 8px;
+}
+
 .markdown-strikethrough {
   text-decoration: line-through;
 }
@@ -226,6 +223,37 @@ figure.markdown-image-container figcaption {
   }
 }
 
+/* Link styling */
+.markdown-link {
+  color: #4dabf7;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.markdown-link:hover {
+  text-decoration: underline;
+  color: #74c0fc;
+}
+
+/* External link styling with icon */
+.markdown-external-link {
+  position: relative;
+  padding-right: 1.2em;
+}
+
+.markdown-external-link::after {
+  content: '↗';
+  position: absolute;
+  right: 0;
+  font-size: 0.8em;
+  top: 0;
+  opacity: 0.7;
+}
+
+.markdown-external-link:hover::after {
+  opacity: 1;
+}
+
 /* Line numbers styling */
 .line-numbers {
   counter-reset: line;
@@ -261,7 +289,6 @@ figure.markdown-image-container figcaption {
   position: relative;
 }
 
-/* Additional selector to ensure line numbers can't be selected */
 .syntax-highlighted .line-number,
 .line-numbers .line-number,
 pre code .line-number,
@@ -307,7 +334,7 @@ pre code .line-number,
   pointer-events: auto !important;
 }
 
-/* Base syntax highlighting colors - based on Dracula theme */
+/* Syntax highlighting colors */
 .syntax-keyword, span.keyword { color: #ff79c6 !important; }
 .syntax-function, span.function { color: #50fa7b !important; }
 .syntax-comment, span.comment { color: #6272a4 !important; }
@@ -317,74 +344,18 @@ pre code .line-number,
 .syntax-text, span.text { color: #f8f8f2 !important; }
 
 .markdown-inline-code {
-  background-color: #1e2128;
+  background-color: #282a36;
   border-radius: 3px;
   padding: 0.2em 0.4em;
-  font-family: monospace;
+  font-family: 'Fira Code', monospace;
+  color: #f8f8f2;
 }
 
-/* Link styling */
-.markdown-link {
-  color: #4dabf7;
-  text-decoration: none;
-  transition: color 0.2s ease-in-out;
-}
-
-.markdown-link:hover {
-  text-decoration: underline;
-  color: #74c0fc;
-}
-
-/* External link styling with icon */
-.markdown-external-link {
-  position: relative;
-  padding-right: 1.2em;
-}
-
-.markdown-external-link::after {
-  content: '↗';
-  position: absolute;
-  right: 0;
-  font-size: 0.8em;
-  top: 0;
-  opacity: 0.7;
-}
-
-.markdown-external-link:hover::after {
-  opacity: 1;
-}
-
-/* Table styling */
-.markdown-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1.5em;
-  overflow-x: auto;
+.syntax-highlighted {
   display: block;
-}
-
-.markdown-table th,
-.markdown-table td {
-  border: 1px solid #495057;
-  padding: 8px 12px;
-  text-align: left;
-}
-
-.markdown-table th {
-  background-color: #2a2e37;
-  font-weight: bold;
-}
-
-.markdown-table tr:nth-child(even) {
-  background-color: #1e2128;
-}
-
-.markdown-table tr:hover {
-  background-color: #2a2e37;
-}
-
-.markdown-table-header {
-  font-weight: bold;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #f8f8f2;
 }
 
 /* Task list styling */

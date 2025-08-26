@@ -1,10 +1,6 @@
-use crate::Route;
 use dioxus::prelude::*;
-use ui::Markdown;
-
-const BLOG_CSS: Asset = asset!("/assets/blog.css");
-const MARKDOWN_CSS: Asset = asset!("/public/assets/styling/markdown.css");
-const SYNTAX_CSS: Asset = asset!("/public/assets/styling/syntax.css");
+use crate::Markdown;
+use crate::Route;
 
 /// Sample markdown content for demonstration
 fn get_blog_content(id: i32) -> String {
@@ -214,9 +210,9 @@ pub fn Blog(id: i32) -> Element {
     let image_base_path = "/assets/images";
     
     rsx! {
-        document::Link { rel: "stylesheet", href: BLOG_CSS}
-        document::Link { rel: "stylesheet", href: MARKDOWN_CSS}
-        document::Link { rel: "stylesheet", href: SYNTAX_CSS}
+        document::Link { rel: "stylesheet", href: "/assets/blog.css"}
+        document::Link { rel: "stylesheet", href: "/assets/styling/markdown.css"}
+        document::Link { rel: "stylesheet", href: "/assets/styling/syntax.css"}
 
         div {
             id: "blog",
