@@ -1,25 +1,167 @@
-#blog {
-  margin-top: 50px;
-  max-width: 800px;
+/* Blog and Post Styling */
+
+.blog-post {
+  margin-top: 2rem;
+  max-width: 900px;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 20px;
+  padding: 0 2rem;
 }
 
-#blog a {
+.blog-post article {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 2rem;
+}
+
+.blog-post a {
   color: #4dabf7;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-#blog a:hover {
+.blog-post a:hover {
+  color: #f7df1e;
   text-decoration: underline;
 }
 
 .blog-navigation {
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid #2a2e37;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+}
+
+.blog-navigation a {
+  color: #f7df1e;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.blog-navigation a:hover {
+  background: rgba(247, 223, 30, 0.1);
+  transform: translateY(-1px);
+}
+
+.disabled-link {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Post and Page Lists */
+.post-list, .page-list {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.post-item {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.2s ease;
+}
+
+.post-item:last-child {
+  border-bottom: none;
+}
+
+.post-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.post-item h3 {
+  margin-bottom: 0.5rem;
+}
+
+.post-item h3 a {
+  color: #f7df1e;
+  text-decoration: none;
+  font-size: 1.25rem;
+}
+
+.post-item h3 a:hover {
+  text-decoration: underline;
+}
+
+.post-item p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.post-meta {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.page-list ul {
+  list-style: none;
+}
+
+.page-list li {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.2s ease;
+}
+
+.page-list li:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.page-list li a {
+  color: #f7df1e;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.page-list li a:hover {
+  text-decoration: underline;
+}
+
+.page-list li p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.25rem;
+}
+
+/* Page content */
+.page-content {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.page-navigation {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.page-navigation a {
+  color: #f7df1e;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.page-navigation a:hover {
+  background: rgba(247, 223, 30, 0.1);
 }

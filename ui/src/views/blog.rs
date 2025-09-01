@@ -1,8 +1,8 @@
 use dioxus::prelude::*;
 use crate::navbar::Route;
-use futures::executor::block_on;
-
 use crate::Markdown;
+use crate::extensions::CommentSection;
+
 #[component]
 pub fn Blog(id: i32) -> Element {
     let content = use_resource(move || async move {
@@ -27,30 +27,40 @@ pub fn Blog(id: i32) -> Element {
 
         div {
             id: "blog",
-            class: "markdown-container",
+            class: "blog-post",
 
-            match content.read().as_ref() {
-                Some(markdown) => rsx! {
-                    Markdown {
-                        content: Some(markdown.clone()),
-                        image_base_path: Some(image_base_path.to_string()),
-                        id: Some(format!("blog-content-{}", id))
-                    }
-                },
-                None => rsx! { p { "Loading Blog..." } }
+            // Post content
+            article {
+                class: "markdown-container",
+                match content.read().as_ref() {
+                    Some(markdown) => rsx! {
+                        Markdown {
+                            content: Some(markdown.clone()),
+                            image_base_path: Some(image_base_path.to_string()),
+                            id: Some(format!("blog-content-{}", id))
+                        }
+                    },
+                    None => rsx! { p { "Loading Blog..." } }
+                }
             }
 
+            // Comments section
+            if id == 0 {
+                CommentSection { post_id: id as u32 }
+            }
+
+            // Navigation
             div {
                 class: "blog-navigation",
                 Link {
                     to: Route::Blog { id: id - 1 },
                     class: if id <= 1 { "disabled-link" } else { "" },
-                    "Previous"
+                    "← Previous"
                 }
                 span { " | " }
                 Link { to: Route::Home {}, "Home" }
                 span { " | " }
-                Link { to: Route::Blog { id: id + 1 }, "Next" }
+                Link { to: Route::Blog { id: id + 1 }, "Next →" }
             }
         }
     }
