@@ -95,44 +95,7 @@ impl Extension for ThemeExtension {
             id: 0,
             name: "Dark Professional".to_string(),
             description: "Professional dark theme with blue accents".to_string(),
-            css_content: r#"
-                :root {
-                    --bg-primary: #1a202c;
-                    --bg-secondary: #2d3748;
-                    --bg-tertiary: #4a5568;
-                    --text-primary: #e2e8f0;
-                    --text-secondary: #a0aec0;
-                    --text-muted: #718096;
-                    --accent-primary: #63b3ed;
-                    --accent-secondary: #4299e1;
-                    --border-color: #4a5568;
-                    --success-color: #38a169;
-                    --warning-color: #d69e2e;
-                    --error-color: #e53e3e;
-                }
-                
-                body {
-                    background-color: var(--bg-primary);
-                    color: var(--text-primary);
-                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-                }
-                
-                .navbar {
-                    background-color: var(--bg-secondary);
-                    border-bottom: 1px solid var(--border-color);
-                }
-                
-                .btn-primary {
-                    background-color: var(--accent-primary);
-                    color: #ffffff;
-                    border: 1px solid var(--accent-primary);
-                }
-                
-                .btn-primary:hover {
-                    background-color: var(--accent-secondary);
-                    border-color: var(--accent-secondary);
-                }
-            "#.to_string(),
+            css_content: "/* Dark theme CSS variables would go here */".to_string(),
             active: true,
         };
         
@@ -144,45 +107,7 @@ impl Extension for ThemeExtension {
             id: 0,
             name: "Light Professional".to_string(),
             description: "Clean light theme with subtle shadows".to_string(),
-            css_content: r#"
-                :root {
-                    --bg-primary: #ffffff;
-                    --bg-secondary: #f7fafc;
-                    --bg-tertiary: #edf2f7;
-                    --text-primary: #2d3748;
-                    --text-secondary: #4a5568;
-                    --text-muted: #718096;
-                    --accent-primary: #3182ce;
-                    --accent-secondary: #2c5282;
-                    --border-color: #e2e8f0;
-                    --success-color: #38a169;
-                    --warning-color: #d69e2e;
-                    --error-color: #e53e3e;
-                }
-                
-                body {
-                    background-color: var(--bg-primary);
-                    color: var(--text-primary);
-                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-                }
-                
-                .navbar {
-                    background-color: var(--bg-secondary);
-                    border-bottom: 1px solid var(--border-color);
-                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-                }
-                
-                .btn-primary {
-                    background-color: var(--accent-primary);
-                    color: #ffffff;
-                    border: 1px solid var(--accent-primary);
-                }
-                
-                .btn-primary:hover {
-                    background-color: var(--accent-secondary);
-                    border-color: var(--accent-secondary);
-                }
-            "#.to_string(),
+            css_content: "/* Light theme CSS variables would go here */".to_string(),
             active: false,
         };
         
@@ -193,43 +118,7 @@ impl Extension for ThemeExtension {
             id: 0,
             name: "Vibrant Colors".to_string(),
             description: "Bright and colorful theme for creative sites".to_string(),
-            css_content: r#"
-                :root {
-                    --bg-primary: #0f0f23;
-                    --bg-secondary: #1a1a3a;
-                    --bg-tertiary: #2d2d5f;
-                    --text-primary: #ccccff;
-                    --text-secondary: #9999cc;
-                    --text-muted: #666699;
-                    --accent-primary: #ff6b9d;
-                    --accent-secondary: #ff8cc8;
-                    --border-color: #444466;
-                    --success-color: #51cf66;
-                    --warning-color: #ffd43b;
-                    --error-color: #ff6b6b;
-                }
-                
-                body {
-                    background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1a3a 100%);
-                    color: var(--text-primary);
-                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-                }
-                
-                .navbar {
-                    background: linear-gradient(90deg, var(--bg-secondary) 0%, #2d2d5f 100%);
-                    border-bottom: 1px solid var(--border-color);
-                }
-                
-                .btn-primary {
-                    background: linear-gradient(45deg, var(--accent-primary) 0%, #c084fc 100%);
-                    color: #ffffff;
-                    border: 1px solid var(--accent-primary);
-                }
-                
-                .btn-primary:hover {
-                    background: linear-gradient(45deg, var(--accent-secondary) 0%, #d8b4fe 100%);
-                }
-            "#.to_string(),
+            css_content: "/* Vibrant theme CSS variables would go here */".to_string(),
             active: false,
         };
         
@@ -265,272 +154,108 @@ impl Extension for ThemeExtension {
 /// Theme manager component for admin
 #[component]
 pub fn ThemeManager() -> Element {
-    let active_theme = use_signal(|| "Dark Professional".to_string());
+    let mut active_theme = use_signal(|| "Dark Professional".to_string());
     
     rsx! {
-        div { class: "theme-manager",
+        div {
             h2 { "Theme Management" }
-            p { class: "description",
-                "Customize the appearance of your CMS with different themes. Changes apply immediately."
-            }
+            p { "Customize the appearance of your CMS with different themes. Changes apply immediately." }
             
-            div { class: "current-theme",
+            div {
                 h3 { "Current Theme" }
-                div { class: "theme-preview active",
-                    div { class: "preview-header",
+                div {
+                    div {
                         h4 { "{active_theme}" }
-                        span { class: "badge active", "ACTIVE" }
+                        span { "ACTIVE" }
                     }
-                    div { class: "preview-description",
-                        "Professional dark theme with blue accents"
-                    }
+                    div { "Professional dark theme with blue accents" }
                 }
             }
             
-            div { class: "available-themes",
+            div {
                 h3 { "Available Themes" }
-                div { class: "themes-grid",
-                    div { 
-                        class: "theme-preview",
+                div {
+                    div {
                         onclick: move |_| {
                             active_theme.set("Dark Professional".to_string());
                         },
-                        div { class: "preview-header",
+                        div {
                             h4 { "Dark Professional" }
-                            span { class: "badge active", "ACTIVE" }
+                            span { "ACTIVE" }
                         }
-                        div { class: "theme-colors",
-                            div { class: "color-swatch", style: "background: #1a202c;" }
-                            div { class: "color-swatch", style: "background: #2d3748;" }
-                            div { class: "color-swatch", style: "background: #63b3ed;" }
-                        }
-                        div { class: "preview-description",
-                            "Professional dark theme with blue accents"
-                        }
-                        button { class: "btn btn-primary", "Activate" }
+                        div { "Professional dark theme with blue accents" }
+                        button { "Activate" }
                     }
                     
-                    div { 
-                        class: "theme-preview",
+                    div {
                         onclick: move |_| {
                             active_theme.set("Light Professional".to_string());
                         },
-                        div { class: "preview-header",
+                        div {
                             h4 { "Light Professional" }
                         }
-                        div { class: "theme-colors",
-                            div { class: "color-swatch", style: "background: #ffffff;" }
-                            div { class: "color-swatch", style: "background: #f7fafc;" }
-                            div { class: "color-swatch", style: "background: #3182ce;" }
-                        }
-                        div { class: "preview-description",
-                            "Clean light theme with subtle shadows"
-                        }
-                        button { class: "btn btn-outline", "Activate" }
+                        div { "Clean light theme with subtle shadows" }
+                        button { "Activate" }
                     }
                     
-                    div { 
-                        class: "theme-preview",
+                    div {
                         onclick: move |_| {
                             active_theme.set("Vibrant Colors".to_string());
                         },
-                        div { class: "preview-header",
+                        div {
                             h4 { "Vibrant Colors" }
                         }
-                        div { class: "theme-colors",
-                            div { class: "color-swatch", style: "background: #0f0f23;" }
-                            div { class: "color-swatch", style: "background: #1a1a3a;" }
-                            div { class: "color-swatch", style: "background: #ff6b9d;" }
-                        }
-                        div { class: "preview-description",
-                            "Bright and colorful theme for creative sites"
-                        }
-                        button { class: "btn btn-outline", "Activate" }
+                        div { "Bright and colorful theme for creative sites" }
+                        button { "Activate" }
                     }
                 }
             }
             
-            div { class: "theme-actions",
+            div {
                 h3 { "Theme Actions" }
-                div { class: "action-buttons",
-                    button { class: "btn btn-outline",
-                        "Create Custom Theme"
-                    }
-                    button { class: "btn btn-outline",
-                        "Import Theme"
-                    }
-                    button { class: "btn btn-outline",
-                        "Export Current Theme"
-                    }
+                div {
+                    button { "Create Custom Theme" }
+                    button { "Import Theme" }
+                    button { "Export Current Theme" }
                 }
             }
         }
-        
-        style { r#"
-            .theme-manager {
-                padding: 20px;
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-            
-            .description {
-                color: var(--text-secondary, #a0aec0);
-                margin-bottom: 30px;
-            }
-            
-            .current-theme {
-                margin-bottom: 40px;
-            }
-            
-            .theme-preview {
-                background: var(--bg-secondary, #2d3748);
-                border: 1px solid var(--border-color, #4a5568);
-                border-radius: 8px;
-                padding: 20px;
-                cursor: pointer;
-                transition: all 0.2s ease;
-            }
-            
-            .theme-preview:hover {
-                transform: translateY(-2px);
-                border-color: var(--accent-primary, #63b3ed);
-            }
-            
-            .theme-preview.active {
-                border-color: var(--accent-primary, #63b3ed);
-                box-shadow: 0 0 0 2px rgba(99, 179, 237, 0.2);
-            }
-            
-            .preview-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 15px;
-            }
-            
-            .preview-header h4 {
-                margin: 0;
-                color: var(--text-primary, #e2e8f0);
-            }
-            
-            .badge {
-                padding: 4px 8px;
-                border-radius: 4px;
-                font-size: 12px;
-                font-weight: 600;
-                text-transform: uppercase;
-            }
-            
-            .badge.active {
-                background: var(--accent-primary, #63b3ed);
-                color: #ffffff;
-            }
-            
-            .theme-colors {
-                display: flex;
-                gap: 8px;
-                margin-bottom: 15px;
-            }
-            
-            .color-swatch {
-                width: 30px;
-                height: 30px;
-                border-radius: 6px;
-                border: 1px solid var(--border-color, #4a5568);
-            }
-            
-            .preview-description {
-                color: var(--text-secondary, #a0aec0);
-                font-size: 14px;
-                margin-bottom: 15px;
-            }
-            
-            .themes-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 20px;
-                margin-bottom: 40px;
-            }
-            
-            .action-buttons {
-                display: flex;
-                gap: 15px;
-                flex-wrap: wrap;
-            }
-            
-            .btn {
-                padding: 10px 20px;
-                border-radius: 6px;
-                border: 1px solid;
-                cursor: pointer;
-                font-weight: 500;
-                transition: all 0.2s ease;
-                text-decoration: none;
-                display: inline-block;
-            }
-            
-            .btn-primary {
-                background: var(--accent-primary, #63b3ed);
-                color: #ffffff;
-                border-color: var(--accent-primary, #63b3ed);
-            }
-            
-            .btn-primary:hover {
-                background: var(--accent-secondary, #4299e1);
-                border-color: var(--accent-secondary, #4299e1);
-            }
-            
-            .btn-outline {
-                background: transparent;
-                color: var(--accent-primary, #63b3ed);
-                border-color: var(--accent-primary, #63b3ed);
-            }
-            
-            .btn-outline:hover {
-                background: var(--accent-primary, #63b3ed);
-                color: #ffffff;
-            }
-        "# }
     }
 }
 
 /// Quick theme selector component
 #[component]
 pub fn ThemeSelector() -> Element {
-    let current_theme = use_signal(|| "Dark Professional".to_string());
-    let show_dropdown = use_signal(|| false);
+    let mut current_theme = use_signal(|| "Dark Professional".to_string());
+    let mut show_dropdown = use_signal(|| false);
     
     rsx! {
-        div { class: "theme-selector",
-            button { 
-                class: "theme-toggle",
+        div {
+            button {
                 onclick: move |_| {
                     show_dropdown.set(!show_dropdown());
                 },
                 span { "🎨 {current_theme}" }
-                span { class: "arrow", if show_dropdown() { "▲" } else { "▼" } }
+                span { if show_dropdown() { "▲" } else { "▼" } }
             }
             
             if show_dropdown() {
-                div { class: "theme-dropdown",
-                    div { 
-                        class: "theme-option active",
+                div {
+                    div {
                         onclick: move |_| {
                             current_theme.set("Dark Professional".to_string());
                             show_dropdown.set(false);
                         },
                         "🌙 Dark Professional"
                     }
-                    div { 
-                        class: "theme-option",
+                    div {
                         onclick: move |_| {
                             current_theme.set("Light Professional".to_string());
                             show_dropdown.set(false);
                         },
                         "☀️ Light Professional"
                     }
-                    div { 
-                        class: "theme-option",
+                    div {
                         onclick: move |_| {
                             current_theme.set("Vibrant Colors".to_string());
                             show_dropdown.set(false);
@@ -540,65 +265,5 @@ pub fn ThemeSelector() -> Element {
                 }
             }
         }
-        
-        style { r#"
-            .theme-selector {
-                position: relative;
-                display: inline-block;
-            }
-            
-            .theme-toggle {
-                background: var(--bg-secondary, #2d3748);
-                border: 1px solid var(--border-color, #4a5568);
-                color: var(--text-primary, #e2e8f0);
-                padding: 8px 12px;
-                border-radius: 6px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                font-size: 14px;
-                transition: border-color 0.2s ease;
-            }
-            
-            .theme-toggle:hover {
-                border-color: var(--accent-primary, #63b3ed);
-            }
-            
-            .arrow {
-                font-size: 12px;
-                transition: transform 0.2s ease;
-            }
-            
-            .theme-dropdown {
-                position: absolute;
-                top: 100%;
-                right: 0;
-                background: var(--bg-secondary, #2d3748);
-                border: 1px solid var(--border-color, #4a5568);
-                border-radius: 6px;
-                padding: 8px 0;
-                min-width: 180px;
-                z-index: 1000;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            }
-            
-            .theme-option {
-                padding: 8px 16px;
-                cursor: pointer;
-                color: var(--text-primary, #e2e8f0);
-                transition: background-color 0.2s ease;
-                font-size: 14px;
-            }
-            
-            .theme-option:hover {
-                background: var(--bg-tertiary, #4a5568);
-            }
-            
-            .theme-option.active {
-                background: var(--accent-primary, #63b3ed);
-                color: #ffffff;
-            }
-        "# }
     }
 }

@@ -207,26 +207,24 @@ impl Extension for SeoExtension {
 #[component]
 pub fn SeoManager() -> Element {
     rsx! {
-        div { class: "seo-manager",
+        div {
             h2 { "SEO & Analytics" }
-            p { class: "description",
-                "Manage search engine optimization settings, meta tags, and analytics for your site."
-            }
+            p { "Manage search engine optimization settings, meta tags, and analytics for your site." }
             
-            div { class: "seo-tabs",
-                div { class: "tab-navigation",
-                    button { class: "tab-button active", "General Settings" }
-                    button { class: "tab-button", "Page Meta" }
-                    button { class: "tab-button", "Sitemap" }
-                    button { class: "tab-button", "Analytics" }
+            div {
+                div {
+                    button { "General Settings" }
+                    button { "Page Meta" }
+                    button { "Sitemap" }
+                    button { "Analytics" }
                 }
                 
-                div { class: "tab-content",
-                    div { class: "tab-panel active",
+                div {
+                    div {
                         h3 { "Global SEO Settings" }
                         
-                        div { class: "form-section",
-                            div { class: "form-group",
+                        div {
+                            div {
                                 label { "Site Title" }
                                 input {
                                     r#type: "text",
@@ -235,7 +233,7 @@ pub fn SeoManager() -> Element {
                                 }
                             }
                             
-                            div { class: "form-group",
+                            div {
                                 label { "Site Description" }
                                 textarea {
                                     placeholder: "Brief description of your site",
@@ -244,7 +242,7 @@ pub fn SeoManager() -> Element {
                                 }
                             }
                             
-                            div { class: "form-group",
+                            div {
                                 label { "Keywords" }
                                 input {
                                     r#type: "text",
@@ -253,8 +251,8 @@ pub fn SeoManager() -> Element {
                                 }
                             }
                             
-                            div { class: "form-row",
-                                div { class: "form-group",
+                            div {
+                                div {
                                     label { "Default Language" }
                                     select {
                                         option { value: "en", "English" }
@@ -264,7 +262,7 @@ pub fn SeoManager() -> Element {
                                     }
                                 }
                                 
-                                div { class: "form-group",
+                                div {
                                     label { "Robots Default" }
                                     select {
                                         option { value: "index,follow", "Index, Follow" }
@@ -277,20 +275,20 @@ pub fn SeoManager() -> Element {
                         }
                         
                         h3 { "Open Graph Settings" }
-                        div { class: "form-section",
-                            div { class: "form-group",
+                        div {
+                            div {
                                 label { "Default OG Image" }
-                                div { class: "file-input-group",
+                                div {
                                     input {
                                         r#type: "text",
                                         value: "/uploads/bananabit-logo.png",
                                         placeholder: "Image URL or path"
                                     }
-                                    button { class: "btn btn-outline", "Browse" }
+                                    button { "Browse" }
                                 }
                             }
                             
-                            div { class: "form-group",
+                            div {
                                 label { "Site Author" }
                                 input {
                                     r#type: "text",
@@ -300,199 +298,43 @@ pub fn SeoManager() -> Element {
                             }
                         }
                         
-                        div { class: "form-actions",
-                            button { class: "btn btn-primary", "Save Settings" }
-                            button { class: "btn btn-outline", "Reset to Default" }
+                        div {
+                            button { "Save Settings" }
+                            button { "Reset to Default" }
                         }
                     }
                 }
             }
             
-            div { class: "seo-tools",
+            div {
                 h3 { "SEO Tools" }
-                div { class: "tools-grid",
-                    div { class: "tool-card",
+                div {
+                    div {
                         h4 { "📊 Analytics Dashboard" }
                         p { "View search engine performance and traffic analytics" }
-                        button { class: "btn btn-outline", "View Analytics" }
+                        button { "View Analytics" }
                     }
                     
-                    div { class: "tool-card",
+                    div {
                         h4 { "🗺️ Generate Sitemap" }
                         p { "Automatically generate XML sitemap for search engines" }
-                        button { class: "btn btn-outline", "Generate" }
+                        button { "Generate" }
                     }
                     
-                    div { class: "tool-card",
+                    div {
                         h4 { "🤖 Robots.txt" }
                         p { "Configure search engine crawler behavior" }
-                        button { class: "btn btn-outline", "Edit Robots.txt" }
+                        button { "Edit Robots.txt" }
                     }
                     
-                    div { class: "tool-card",
+                    div {
                         h4 { "🔍 SEO Audit" }
                         p { "Analyze your site for SEO best practices" }
-                        button { class: "btn btn-outline", "Run Audit" }
+                        button { "Run Audit" }
                     }
                 }
             }
         }
-        
-        style { r#"
-            .seo-manager {
-                padding: 20px;
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-            
-            .description {
-                color: var(--text-secondary, #a0aec0);
-                margin-bottom: 30px;
-            }
-            
-            .seo-tabs {
-                background: var(--bg-secondary, #2d3748);
-                border: 1px solid var(--border-color, #4a5568);
-                border-radius: 8px;
-                margin-bottom: 30px;
-            }
-            
-            .tab-navigation {
-                display: flex;
-                border-bottom: 1px solid var(--border-color, #4a5568);
-            }
-            
-            .tab-button {
-                padding: 15px 20px;
-                background: transparent;
-                border: none;
-                color: var(--text-secondary, #a0aec0);
-                cursor: pointer;
-                transition: all 0.2s ease;
-                border-bottom: 2px solid transparent;
-            }
-            
-            .tab-button:hover {
-                color: var(--text-primary, #e2e8f0);
-                background: var(--bg-tertiary, #4a5568);
-            }
-            
-            .tab-button.active {
-                color: var(--accent-primary, #63b3ed);
-                border-bottom-color: var(--accent-primary, #63b3ed);
-            }
-            
-            .tab-content {
-                padding: 30px;
-            }
-            
-            .form-section {
-                margin-bottom: 30px;
-            }
-            
-            .form-group {
-                margin-bottom: 20px;
-            }
-            
-            .form-row {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
-            }
-            
-            .form-group label {
-                display: block;
-                margin-bottom: 8px;
-                color: var(--text-primary, #e2e8f0);
-                font-weight: 500;
-            }
-            
-            .form-group input,
-            .form-group textarea,
-            .form-group select {
-                width: 100%;
-                padding: 10px;
-                border: 1px solid var(--border-color, #4a5568);
-                border-radius: 6px;
-                background: var(--bg-primary, #1a202c);
-                color: var(--text-primary, #e2e8f0);
-                font-size: 14px;
-            }
-            
-            .file-input-group {
-                display: flex;
-                gap: 10px;
-            }
-            
-            .file-input-group input {
-                flex: 1;
-            }
-            
-            .form-actions {
-                display: flex;
-                gap: 15px;
-                margin-top: 30px;
-            }
-            
-            .tools-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 20px;
-                margin-top: 20px;
-            }
-            
-            .tool-card {
-                background: var(--bg-secondary, #2d3748);
-                border: 1px solid var(--border-color, #4a5568);
-                border-radius: 8px;
-                padding: 20px;
-                text-align: center;
-            }
-            
-            .tool-card h4 {
-                margin: 0 0 10px 0;
-                color: var(--text-primary, #e2e8f0);
-            }
-            
-            .tool-card p {
-                color: var(--text-secondary, #a0aec0);
-                font-size: 14px;
-                margin-bottom: 15px;
-            }
-            
-            .btn {
-                padding: 10px 20px;
-                border-radius: 6px;
-                border: 1px solid;
-                cursor: pointer;
-                font-weight: 500;
-                transition: all 0.2s ease;
-                text-decoration: none;
-                display: inline-block;
-            }
-            
-            .btn-primary {
-                background: var(--accent-primary, #63b3ed);
-                color: #ffffff;
-                border-color: var(--accent-primary, #63b3ed);
-            }
-            
-            .btn-primary:hover {
-                background: var(--accent-secondary, #4299e1);
-                border-color: var(--accent-secondary, #4299e1);
-            }
-            
-            .btn-outline {
-                background: transparent;
-                color: var(--accent-primary, #63b3ed);
-                border-color: var(--accent-primary, #63b3ed);
-            }
-            
-            .btn-outline:hover {
-                background: var(--accent-primary, #63b3ed);
-                color: #ffffff;
-            }
-        "# }
     }
 }
 

@@ -5820,6 +5820,7 @@ dependencies = [
  "dioxus",
  "futures",
  "gloo-net",
+ "log",
  "pulldown-cmark",
  "reqwest",
  "serde",
