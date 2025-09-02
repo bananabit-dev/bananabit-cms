@@ -8,6 +8,13 @@ primary_region = 'fra'
 
 [build]
 
+[env]
+  # Application Configuration
+  PORT = "8080"
+  IP = "0.0.0.0"
+  # Database URL - using fly.io volumes for persistence
+  DATABASE_URL = "sqlite:///data/cms.db"
+
 [http_service]
   internal_port = 8080
   force_https = true
@@ -20,3 +27,8 @@ primary_region = 'fra'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
+
+# Volume for database persistence
+[mounts]
+  source = "cms_data"
+  destination = "/data"

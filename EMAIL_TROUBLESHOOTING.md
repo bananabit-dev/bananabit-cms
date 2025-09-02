@@ -95,17 +95,39 @@ telnet smtp.gmail.com 587
 
 ## 🛠️ Debug Commands
 
-### View all environment variables
+### Local Development
 ```bash
+# View all environment variables
 docker-compose exec app env
-```
 
-### Test email configuration
-```bash
-# Connect to app container
+# Test email configuration
 docker-compose exec app /bin/bash
 
 # Check SMTP connectivity (if telnet is available)
+telnet $SMTP_HOST $SMTP_PORT
+```
+
+### Fly.io Deployment
+```bash
+# View application logs
+fly logs --app your-app-name
+
+# View real-time logs
+fly logs --app your-app-name -f
+
+# Filter for email-related logs
+fly logs --app your-app-name | grep "📧\|email\|smtp"
+
+# SSH into running app
+fly ssh console
+
+# Check environment variables in Fly.io
+env | grep SMTP
+
+# List configured secrets
+fly secrets list
+
+# Test SMTP connectivity from Fly.io
 telnet $SMTP_HOST $SMTP_PORT
 ```
 
@@ -127,7 +149,55 @@ nano .env
 docker-compose up -d
 ```
 
-## 📧 Email Provider Specific Issues
+## 🔧 Platform-Specific Issues
+
+### Fly.io Deployment
+
+#### 1. "SMTP secrets not found"
+**Symptoms:** Email service initialization fails on Fly.io.
+
+**Solutions:**
+1. Set secrets using Fly CLI: `fly secrets set SMTP_HOST="smtp.gmail.com"`
+2. Verify secrets are set: `fly secrets list`
+3. Redeploy after setting secrets: `fly deploy`
+
+#### 2. "Volume mounting issues"
+**Symptoms:** Database resets after deployment.
+
+**Solutions:**
+1. Create volume: `fly volumes create cms_data --region fra --size 1`
+2. Verify volume is mounted in fly.toml under `[mounts]`
+3. Check volume status: `fly volumes list`
+
+#### 3. "Custom domain email issues"
+**Symptoms:** Emails work on *.fly.dev but not custom domain.
+
+**Solutions:**
+1. Update BASE_URL: `fly secrets set BASE_URL="https://your-domain.com"`
+2. Verify DNS records are properly configured
+3. Set FROM_EMAIL to match your domain
+
+#### 4. "Fly.io region connectivity"
+**Symptoms:** SMTP timeouts from specific regions.
+
+**Solutions:**
+1. Try different SMTP ports (587, 465, 25)
+2. Consider changing Fly.io region closer to email provider
+3. Use different email provider if regional issues persist
+
+### Docker Development
+
+#### 1. "MailHog not accessible"
+**Symptoms:** Cannot access MailHog interface.
+
+**Solutions:**
+1. Ensure MailHog service is running: `docker-compose ps`
+2. Check port mapping in docker-compose.yml
+3. Access via http://localhost:8025
+
+### General Production Issues
+
+### Email Provider Specific Issues
 
 ### Gmail
 - **Issue:** "Less secure app access"
