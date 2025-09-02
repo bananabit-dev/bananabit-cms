@@ -29,6 +29,9 @@ COPY --from=builder /app/target/dx/web/release/web/ /usr/local/app
 # Copy all assets from packages/ui/assets to /usr/local/app/public/assets
 COPY --from=builder /app/ui/assets/ /usr/local/app/public/assets/
 
+# Create data directory for database and uploads
+RUN mkdir -p /usr/local/app/data
+
 ENV PORT=8080
 ENV IP=0.0.0.0
 EXPOSE 8080

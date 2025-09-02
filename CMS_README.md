@@ -120,6 +120,156 @@ For the first user registration, a captcha question must be answered: "Who's ban
 
 All users must verify their email address before they can log in.
 
+## 📧 Email Configuration
+
+BananaBit CMS includes a secure email system for user verification and notifications. The system supports multiple SMTP providers and includes development tools for testing.
+
+### Quick Start with Docker Compose
+
+For development with MailHog (email testing):
+```bash
+docker-compose up -d
+```
+
+For production:
+```bash
+# Copy and configure environment file
+cp .env.example .env
+# Edit .env with your SMTP settings
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+### Email Service Providers
+
+The CMS supports any SMTP-compatible email service. Here are configurations for popular providers:
+
+#### Gmail
+```env
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USERNAME=your-email@gmail.com
+SMTP_PASSWORD=your-app-password
+FROM_EMAIL=your-email@gmail.com
+FROM_NAME=Your Site Name
+```
+
+**Note:** For Gmail, you need to use an App Password, not your regular password. Enable 2FA and generate an App Password in your Google Account settings.
+
+#### SendGrid
+```env
+SMTP_HOST=smtp.sendgrid.net
+SMTP_PORT=587
+SMTP_USERNAME=apikey
+SMTP_PASSWORD=your-sendgrid-api-key
+FROM_EMAIL=noreply@your-domain.com
+FROM_NAME=Your Site Name
+```
+
+#### Mailgun
+```env
+SMTP_HOST=smtp.mailgun.org
+SMTP_PORT=587
+SMTP_USERNAME=your-mailgun-username
+SMTP_PASSWORD=your-mailgun-password
+FROM_EMAIL=noreply@your-domain.com
+FROM_NAME=Your Site Name
+```
+
+#### AWS SES
+```env
+SMTP_HOST=email-smtp.us-east-1.amazonaws.com
+SMTP_PORT=587
+SMTP_USERNAME=your-ses-username
+SMTP_PASSWORD=your-ses-password
+FROM_EMAIL=noreply@your-domain.com
+FROM_NAME=Your Site Name
+```
+
+### DNS Records Setup
+
+To ensure reliable email delivery and avoid spam filters, configure these DNS records for your domain:
+
+#### SPF Record
+Add a TXT record for your domain:
+```
+Name: @
+Type: TXT
+Value: v=spf1 include:_spf.google.com ~all
+```
+(Replace `_spf.google.com` with your email provider's SPF record)
+
+#### DKIM Record
+Your email provider will give you a DKIM record. Add it as a TXT record:
+```
+Name: selector._domainkey (provided by your email service)
+Type: TXT
+Value: (provided by your email service)
+```
+
+#### DMARC Record
+Add a DMARC policy:
+```
+Name: _dmarc
+Type: TXT
+Value: v=DMARC1; p=quarantine; rua=mailto:admin@your-domain.com
+```
+
+### Development Setup
+
+For local development, the docker-compose.yml includes MailHog for email testing:
+
+1. Start the services:
+   ```bash
+   docker-compose up -d
+   ```
+
+2. Access MailHog Web UI at: http://localhost:8025
+3. Your app will send emails to MailHog instead of real addresses
+4. View all sent emails in the MailHog interface
+
+### Environment Variables
+
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `SMTP_HOST` | SMTP server hostname | Yes | localhost |
+| `SMTP_PORT` | SMTP server port | No | 1025 |
+| `SMTP_USERNAME` | SMTP username | No | "" |
+| `SMTP_PASSWORD` | SMTP password | No | "" |
+| `FROM_EMAIL` | Sender email address | Yes | noreply@bananabit.dev |
+| `FROM_NAME` | Sender display name | No | BananaBit CMS |
+| `BASE_URL` | Your site's base URL | Yes | http://localhost:8080 |
+
+### Email Features
+
+The email system includes:
+
+- **Verification Emails**: Sent during user registration
+- **Welcome Emails**: Sent after email verification
+- **Password Reset**: (Ready for implementation)
+- **HTML & Text**: Multi-part emails with both HTML and plain text
+- **Professional Templates**: Beautiful, responsive email templates
+- **Security**: Verification tokens with expiration
+- **Logging**: Comprehensive email sending logs
+
+### Troubleshooting
+
+#### Emails not sending
+1. Check SMTP credentials in your environment variables
+2. Verify SMTP host and port settings
+3. Check application logs for error messages
+4. Test SMTP connection with your provider's tools
+
+#### Emails going to spam
+1. Configure SPF, DKIM, and DMARC DNS records
+2. Use a reputable email service provider
+3. Ensure FROM_EMAIL matches your domain
+4. Avoid spam trigger words in email content
+
+#### Development email testing
+1. Use MailHog with docker-compose for local testing
+2. Access MailHog at http://localhost:8025
+3. All emails will be captured instead of sent to real addresses
+
 ## 🎨 Styling
 
 The CMS features a modern, dark theme with:
