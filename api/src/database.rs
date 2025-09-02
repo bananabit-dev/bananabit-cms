@@ -56,7 +56,9 @@ impl Database {
                 password_hash TEXT NOT NULL,
                 role TEXT NOT NULL,
                 created_at TEXT NOT NULL,
-                active BOOLEAN NOT NULL DEFAULT 1
+                active BOOLEAN NOT NULL DEFAULT 1,
+                email_verified BOOLEAN NOT NULL DEFAULT 0,
+                verification_token TEXT
             )
             "#
         )
@@ -109,6 +111,34 @@ impl Database {
         )
         .execute(&self.pool)
         .await?;
+        
+        // Migrate existing users table if needed
+        self.migrate_users_table().await?;
+        
+        Ok(())
+    }
+    
+    /// Migrate users table to add email verification fields
+    async fn migrate_users_table(&self) -> Result<(), Box<dyn std::error::Error>> {
+        // Check if email_verified column exists
+        let columns: Vec<String> = sqlx::query("PRAGMA table_info(users)")
+            .fetch_all(&self.pool)
+            .await?
+            .into_iter()
+            .map(|row| row.get::<String, _>("name"))
+            .collect();
+        
+        if !columns.contains(&"email_verified".to_string()) {
+            sqlx::query("ALTER TABLE users ADD COLUMN email_verified BOOLEAN NOT NULL DEFAULT 0")
+                .execute(&self.pool)
+                .await?;
+        }
+        
+        if !columns.contains(&"verification_token".to_string()) {
+            sqlx::query("ALTER TABLE users ADD COLUMN verification_token TEXT")
+                .execute(&self.pool)
+                .await?;
+        }
         
         Ok(())
     }
@@ -228,7 +258,7 @@ impl Database {
     /// Get user by username
     pub async fn get_user_by_username(&self, username: &str) -> Result<Option<User>, Box<dyn std::error::Error>> {
         let row = sqlx::query(
-            "SELECT id, username, email, password_hash, role, created_at, active
+            "SELECT id, username, email, password_hash, role, created_at, active, email_verified, verification_token
              FROM users WHERE username = ?"
         )
         .bind(username)
@@ -254,6 +284,8 @@ impl Database {
                     role,
                     created_at: row.get("created_at"),
                     active: row.get("active"),
+                    email_verified: row.get::<bool, _>("email_verified"),
+                    verification_token: row.get("verification_token"),
                 }))
             },
             None => Ok(None),
@@ -270,8 +302,8 @@ impl Database {
         };
         
         let result = sqlx::query(
-            "INSERT INTO users (username, email, password_hash, role, created_at, active)
-             VALUES (?, ?, ?, ?, ?, ?)"
+            "INSERT INTO users (username, email, password_hash, role, created_at, active, email_verified, verification_token)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
         )
         .bind(&user.username)
         .bind(&user.email)
@@ -279,6 +311,8 @@ impl Database {
         .bind(role_str)
         .bind(&user.created_at)
         .bind(user.active)
+        .bind(user.email_verified)
+        .bind(&user.verification_token)
         .execute(&self.pool)
         .await?;
         
@@ -322,38 +356,7 @@ Welcome to the future of content management!"#.to_string(),
             self.save_post(&welcome_post).await?;
         }
         
-        // Check if we already have users
-        let user_count: i64 = sqlx::query_scalar("SELECT COUNT(*) FROM users")
-            .fetch_one(&self.pool)
-            .await?;
-            
-        if user_count == 0 {
-            // Add default admin user
-            let admin_user = User {
-                id: 0,
-                username: "admin".to_string(),
-                email: "admin@bananabit.dev".to_string(),
-                password_hash: "admin123".to_string(), // In production, this would be properly hashed
-                role: UserRole::Admin,
-                created_at: chrono::Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string(),
-                active: true,
-            };
-            
-            self.create_user(&admin_user).await?;
-            
-            // Add default editor user
-            let editor_user = User {
-                id: 0,
-                username: "editor".to_string(),
-                email: "editor@bananabit.dev".to_string(),
-                password_hash: "editor123".to_string(),
-                role: UserRole::Editor,
-                created_at: chrono::Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string(),
-                active: true,
-            };
-            
-            self.create_user(&editor_user).await?;
-        }
+        // No default users created - first registered user will be admin
         
         Ok(())
     }

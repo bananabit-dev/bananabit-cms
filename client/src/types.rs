@@ -25,6 +25,8 @@ pub struct User {
     pub role: UserRole,
     pub created_at: String,
     pub active: bool,
+    pub email_verified: bool,
+    pub verification_token: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
