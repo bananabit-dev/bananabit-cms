@@ -2,6 +2,12 @@ FROM rust:1 AS chef
 RUN cargo install cargo-chef
 WORKDIR /app
 
+# For Debian/Ubuntu-based images
+RUN apt-get update && apt-get install -y \
+    clang \
+    && rm -rf /var/lib/apt/lists/*
+
+
 FROM chef AS planner
 COPY . .
 RUN cargo chef prepare --recipe-path recipe.json
