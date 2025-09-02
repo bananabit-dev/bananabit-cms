@@ -5,11 +5,19 @@ pub mod posts;
 pub mod comments;
 pub mod auth;
 pub mod pages;
+pub mod media;
+pub mod themes;
+pub mod seo;
+pub mod scheduling;
 
 pub use posts::*;
 pub use comments::*;
 pub use auth::*;
 pub use pages::*;
+pub use media::*;
+pub use themes::*;
+pub use seo::*;
+pub use scheduling::*;
 
 /// Core trait that all extensions must implement
 pub trait Extension {
