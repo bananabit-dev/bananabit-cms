@@ -2,6 +2,7 @@
 members = [
     "api",
     "ba-server",
+    "client",
     "desktop",
     "mobile",
     "ui",
@@ -15,4 +16,5 @@ dioxus = { version = "0.7.0-rc.0" }
 # workspace
 ui = { path = "ui" }
 api = { path = "api" }
+client = { path = "client" }
 ba-server = { path = "ba-server"}

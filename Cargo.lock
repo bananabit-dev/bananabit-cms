@@ -51,7 +51,15 @@ dependencies = [
 name = "api"
 version = "0.1.0"
 dependencies = [
+ "chrono",
+ "client",
  "dioxus",
+ "log",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "tokio",
+ "uuid",
 ]
 
 [[package]]
@@ -456,6 +464,20 @@ checksum = "57663b653d948a338bfb3eeba9bb2fd5fcfaecb9e199e87e1eda4d9e8b240fd9"
 dependencies = [
  "ciborium-io",
  "half",
+]
+
+[[package]]
+name = "client"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "gloo-net",
+ "js-sys",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "uuid",
+ "web-sys",
 ]
 
 [[package]]
@@ -5816,18 +5838,15 @@ dependencies = [
 name = "ui"
 version = "0.1.0"
 dependencies = [
- "chrono",
+ "api",
+ "client",
  "dioxus",
  "futures",
  "gloo-net",
- "log",
  "pulldown-cmark",
  "reqwest",
  "serde",
- "sqlx",
  "syntect",
- "tokio",
- "uuid",
 ]
 
 [[package]]

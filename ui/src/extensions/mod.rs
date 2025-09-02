@@ -1,4 +1,3 @@
-use dioxus::prelude::*;
 use std::collections::HashMap;
 
 pub mod posts;
@@ -22,6 +21,9 @@ pub use seo::*;
 pub use scheduling::*;
 pub use i18n::*;
 pub use analytics::*;
+
+// Re-export types from client
+pub use client::{Post, User, UserRole, Session, Comment, MediaFile, Theme, SeoMetadata, AnalyticsEvent};
 
 /// Core trait that all extensions must implement
 pub trait Extension {

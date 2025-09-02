@@ -1,25 +1,25 @@
 use dioxus::prelude::*;
-use super::{Extension, ExtensionRoute, ExtensionComponent};
-use serde::{Deserialize, Serialize};
+use super::{Extension, ExtensionRoute, ExtensionComponent, MediaFile};
 use std::collections::HashMap;
+use client::time::now_iso8601;
 
-/// Media file data structure
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct MediaFile {
-    pub id: u32,
-    pub filename: String,
-    pub original_name: String,
-    pub mime_type: String,
-    pub file_size: u64,
-    pub uploaded_at: String,
-    pub uploaded_by: u32,
-    pub alt_text: Option<String>,
+/// Extended media file with computed fields for UI
+#[derive(Debug, Clone)]
+pub struct ExtendedMediaFile {
+    pub media: MediaFile,
     pub url: String, // Computed field for serving
+}
+
+impl ExtendedMediaFile {
+    pub fn from_media(media: MediaFile) -> Self {
+        let url = format!("/uploads/{}", media.filename);
+        Self { media, url }
+    }
 }
 
 /// Media management extension
 pub struct MediaExtension {
-    media_files: HashMap<u32, MediaFile>,
+    media_files: HashMap<u32, ExtendedMediaFile>,
     next_id: u32,
     upload_dir: String,
 }
@@ -33,30 +33,30 @@ impl MediaExtension {
         }
     }
     
-    pub fn get_media_files(&self) -> Vec<&MediaFile> {
+    pub fn get_media_files(&self) -> Vec<&ExtendedMediaFile> {
         self.media_files.values().collect()
     }
     
-    pub fn get_media_by_id(&self, id: u32) -> Option<&MediaFile> {
+    pub fn get_media_by_id(&self, id: u32) -> Option<&ExtendedMediaFile> {
         self.media_files.get(&id)
     }
     
     pub fn add_media_file(&mut self, mut media: MediaFile) -> u32 {
         media.id = self.next_id;
-        media.url = format!("/uploads/{}", media.filename);
-        self.media_files.insert(self.next_id, media);
+        let extended = ExtendedMediaFile::from_media(media);
+        self.media_files.insert(self.next_id, extended);
         let id = self.next_id;
         self.next_id += 1;
         id
     }
     
-    pub fn delete_media_file(&mut self, id: u32) -> Option<MediaFile> {
+    pub fn delete_media_file(&mut self, id: u32) -> Option<ExtendedMediaFile> {
         self.media_files.remove(&id)
     }
     
     pub fn update_alt_text(&mut self, id: u32, alt_text: String) -> bool {
         if let Some(media) = self.media_files.get_mut(&id) {
-            media.alt_text = Some(alt_text);
+            media.media.alt_text = Some(alt_text);
             true
         } else {
             false
@@ -88,10 +88,9 @@ impl Extension for MediaExtension {
             original_name: "logo.png".to_string(),
             mime_type: "image/png".to_string(),
             file_size: 15432,
-            uploaded_at: chrono::Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string(),
-            uploaded_by: 1, // Admin user
+            uploaded_at: now_iso8601(),
+            uploaded_by: Some(1), // Admin user
             alt_text: Some("BananaBit CMS Logo".to_string()),
-            url: "/uploads/bananabit-logo.png".to_string(),
         };
         
         self.add_media_file(sample_image);
@@ -147,7 +146,7 @@ pub fn MediaLibrary() -> Element {
                     accept: "image/*,video/*,audio/*,.pdf,.doc,.docx",
                     onchange: move |_event| {
                         // Handle file upload
-                        log::info!("Files selected for upload");
+                        println!("Files selected for upload");
                     }
                 }
                 p { "Drag and drop files here or click to browse. Supported formats: Images, Videos, Audio, PDF, Documents" }
@@ -204,10 +203,9 @@ pub fn MediaPicker(on_select: EventHandler<MediaFile>) -> Element {
                             original_name: "logo.png".to_string(),
                             mime_type: "image/png".to_string(),
                             file_size: 15432,
-                            uploaded_at: chrono::Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string(),
-                            uploaded_by: 1,
+                            uploaded_at: now_iso8601(),
+                            uploaded_by: Some(1),
                             alt_text: Some("BananaBit CMS Logo".to_string()),
-                            url: "/uploads/bananabit-logo.png".to_string(),
                         };
                         on_select.call(sample_media);
                     },

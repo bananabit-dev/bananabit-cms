@@ -1,36 +1,6 @@
 use dioxus::prelude::*;
-use super::{Extension, ExtensionRoute, ExtensionComponent};
-use serde::{Deserialize, Serialize};
+use super::{Extension, ExtensionRoute, ExtensionComponent, User, UserRole, Session};
 use std::collections::HashMap;
-
-/// User data structure
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct User {
-    pub id: u32,
-    pub username: String,
-    pub email: String,
-    pub password_hash: String, // In real app, this would be properly hashed
-    pub role: UserRole,
-    pub created_at: String,
-    pub active: bool,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-pub enum UserRole {
-    Admin,
-    Editor,
-    Author,
-    Subscriber,
-}
-
-/// Current session information
-#[derive(Debug, Clone, Default)]
-pub struct Session {
-    pub user_id: Option<u32>,
-    pub username: Option<String>,
-    pub role: Option<UserRole>,
-    pub authenticated: bool,
-}
 
 /// Authentication extension - handles user auth and sessions
 pub struct AuthExtension {
