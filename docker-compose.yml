@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # Main application
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # Database configuration
+      DATABASE_URL: sqlite://cms.db
+      
+      # Email configuration (MailHog for development)
+      SMTP_HOST: mailhog
+      SMTP_PORT: 1025
+      SMTP_USERNAME: ""
+      SMTP_PASSWORD: ""
+      FROM_EMAIL: noreply@bananabit.dev
+      FROM_NAME: BananaBit CMS
+      BASE_URL: http://localhost:8080
+      
+      # Server configuration
+      PORT: 8080
+      IP: 0.0.0.0
+    depends_on:
+      - mailhog
+    volumes:
+      # Persist database
+      - ./data:/usr/local/app/data
+    networks:
+      - app-network
+
+  # MailHog for email testing (development only)
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"   # SMTP port
+      - "8025:8025"   # Web UI port
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  app-data:

@@ -4,7 +4,7 @@ use client::{Post, User, UserRole};
 
 /// Database manager for the CMS
 pub struct Database {
-    pool: Pool<Sqlite>,
+    pub pool: Pool<Sqlite>, // Make pool public for server functions
 }
 
 impl Database {

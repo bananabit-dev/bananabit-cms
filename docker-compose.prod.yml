@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Main application
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # Database configuration
+      DATABASE_URL: sqlite://data/cms.db
+      
+      # Email configuration (use your SMTP provider)
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      FROM_EMAIL: ${FROM_EMAIL}
+      FROM_NAME: ${FROM_NAME:-BananaBit CMS}
+      BASE_URL: ${BASE_URL}
+      
+      # Server configuration
+      PORT: 8080
+      IP: 0.0.0.0
+    volumes:
+      # Persist database and uploads
+      - ./data:/usr/local/app/data
+      - ./uploads:/usr/local/app/uploads
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  app-data:
