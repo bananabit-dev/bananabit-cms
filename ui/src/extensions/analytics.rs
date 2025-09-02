@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use super::{Extension, ExtensionRoute, ExtensionComponent, AnalyticsEvent};
+use super::{Extension, ExtensionRoute, ExtensionComponent};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use client::time::{now_iso8601, today_date};

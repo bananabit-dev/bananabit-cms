@@ -152,6 +152,7 @@ This is an automated message from BananaBit CMS. Please do not reply to this ema
     }
 
     /// Send password reset email
+    #[allow(dead_code)]
     pub async fn send_password_reset_email(
         &self,
         to_email: &str,

@@ -5,6 +5,7 @@ use std::collections::HashMap;
 /// Authentication extension - handles user auth and sessions
 pub struct AuthExtension {
     users: HashMap<u32, User>,
+    #[allow(dead_code)]
     sessions: HashMap<String, Session>, // session_id -> session
     current_session: Session,
     next_user_id: u32,
@@ -238,7 +239,8 @@ pub fn LoginForm() -> Element {
     let mut error = use_signal(|| String::new());
     let mut success = use_signal(|| false);
     
-    let on_submit = move |_| {
+    let on_submit = move |evt: FormEvent| {
+        evt.prevent_default();
         error.set(String::new());
         
         if username().is_empty() || password().is_empty() {
@@ -266,7 +268,6 @@ pub fn LoginForm() -> Element {
             } else {
                 form {
                     onsubmit: on_submit,
-                    prevent_default: "onsubmit",
                     
                     if !error().is_empty() {
                         div {
@@ -324,9 +325,10 @@ pub fn RegisterForm() -> Element {
     let mut captcha_answer = use_signal(|| String::new());
     let mut error = use_signal(|| String::new());
     let mut success = use_signal(|| false);
-    let mut show_captcha = use_signal(|| true); // In real app, this would check if first user
+    let show_captcha = use_signal(|| true); // In real app, this would check if first user
     
-    let on_submit = move |_| {
+    let on_submit = move |evt: FormEvent| {
+        evt.prevent_default();
         error.set(String::new());
         
         if username().is_empty() || email().is_empty() || password().is_empty() || confirm_password().is_empty() {
@@ -360,7 +362,6 @@ pub fn RegisterForm() -> Element {
             } else {
                 form {
                     onsubmit: on_submit,
-                    prevent_default: "onsubmit",
                     
                     if !error().is_empty() {
                         div {
@@ -460,7 +461,8 @@ pub fn EmailVerificationPage() -> Element {
     let mut error = use_signal(|| String::new());
     let mut success = use_signal(|| false);
     
-    let on_submit = move |_| {
+    let on_submit = move |evt: FormEvent| {
+        evt.prevent_default();
         error.set(String::new());
         
         if verification_token().is_empty() {
@@ -488,7 +490,6 @@ pub fn EmailVerificationPage() -> Element {
                 } else {
                     form {
                         onsubmit: on_submit,
-                        prevent_default: "onsubmit",
                         
                         if !error().is_empty() {
                             div {

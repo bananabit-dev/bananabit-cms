@@ -177,7 +177,8 @@ pub fn CommentForm(post_id: u32) -> Element {
     let mut content = use_signal(|| String::new());
     let mut submitted = use_signal(|| false);
     
-    let on_submit = move |_| {
+    let on_submit = move |evt: FormEvent| {
+        evt.prevent_default();
         if !author().is_empty() && !email().is_empty() && !content().is_empty() {
             // In a real implementation, this would submit to the backend
             submitted.set(true);
@@ -209,7 +210,6 @@ pub fn CommentForm(post_id: u32) -> Element {
             } else {
                 form {
                     onsubmit: on_submit,
-                    prevent_default: "onsubmit",
                     
                     div {
                         class: "form-group",
