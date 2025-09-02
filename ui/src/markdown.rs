@@ -1,7 +1,7 @@
 use std::sync::OnceLock;
 use dioxus::prelude::*;
 use pulldown_cmark::{Options, Parser, Tag, Event};
-use syntect::highlighting::{ThemeSet, Style};
+use syntect::highlighting::ThemeSet;
 use syntect::parsing::SyntaxSet;
 use std::time;
 use std::fs;
@@ -81,7 +81,7 @@ pub fn Markdown(
     rsx! {
         div {
             class: "markdown-container",
-            id: {markdown_id},
+            id: markdown_id,
             {render_markdown_events(events, image_base_path)}
         }
     }
@@ -89,6 +89,7 @@ pub fn Markdown(
 
 
 /// Get syntax highlighting components (SyntaxSet and ThemeSet)
+#[allow(dead_code)]
 fn get_syntax_highlighter() -> &'static (SyntaxSet, ThemeSet) {
     static HIGHLIGHTER: OnceLock<(SyntaxSet, ThemeSet)> = OnceLock::new();
     
@@ -362,7 +363,7 @@ fn render_markdown_events<'a>(events: Vec<Event<'a>>, image_base_path: Option<St
                         };
                         
                         // Collect all events until the matching End(CodeBlock)
-                        let (content, new_index) = collect_until_end_with_index(events_slice, i, Tag::CodeBlock(kind.clone()));
+                        let (_content, new_index) = collect_until_end_with_index(events_slice, i, Tag::CodeBlock(kind.clone()));
                         let code_content = collect_text_until_end(events_slice, Tag::CodeBlock(kind.clone()));
                         
                         // Check if code is small enough to not need scrolling
@@ -506,7 +507,7 @@ fn render_markdown_events<'a>(events: Vec<Event<'a>>, image_base_path: Option<St
                                     // Replace the first text event with our custom checkbox and the remaining text
                                     content[0] = Event::Text(remaining_text.into());
                                     
-                                    let check_status = if checked { "checked" } else { "unchecked" };
+                                    let _check_status = if checked { "checked" } else { "unchecked" };
                                     
                                     elements.push(rsx! { 
                                         li { 
@@ -549,7 +550,7 @@ fn render_markdown_events<'a>(events: Vec<Event<'a>>, image_base_path: Option<St
                         i = new_index;
                     },
                     Tag::TableHead => {
-                        in_table_head = true;
+                        // in_table_head = true; // Note: This assignment is overwritten before use
                         // Collect all events until the matching End(TableHead)
                         let (content, new_index) = collect_until_end_with_index(events_slice, i, Tag::TableHead);
                         elements.push(rsx! { thead { {render_markdown_events(content, image_base_path.clone())} } });
@@ -609,18 +610,18 @@ fn render_markdown_events<'a>(events: Vec<Event<'a>>, image_base_path: Option<St
                         
                         let link = if url_str.starts_with("http://") || url_str.starts_with("https://") {
                             rsx! { a {
-                                class: {link_class},
-                                href: {url_str},
-                                title: {title_str},
+                                class: link_class,
+                                href: url_str,
+                                title: title_str,
                                 target: "_blank",
                                 rel: "noopener noreferrer",
                                 {render_markdown_events(content, image_base_path.clone())}
                             }}
                         } else {
                             rsx! { a {
-                                class: {link_class},
-                                href: {url_str},
-                                title: {title_str},
+                                class: link_class,
+                                href: url_str,
+                                title: title_str,
                                 {render_markdown_events(content, image_base_path.clone())}
                             }}
                         };
@@ -816,6 +817,7 @@ fn tag_matches(a: &Tag, b: &Tag) -> bool {
 }
 
 /// Helper function to collect events until a matching end tag
+#[allow(dead_code)]
 fn collect_until_end<'a>(events: &[Event<'a>], tag: Tag<'a>) -> Vec<Event<'a>> {
     let (collected, _) = collect_until_end_with_index(events, 0, tag);
     collected

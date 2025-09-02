@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use super::{Extension, ExtensionRoute, ExtensionComponent, SeoMetadata};
+use super::{Extension, ExtensionRoute, ExtensionComponent};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use client::time::today_date;
