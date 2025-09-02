@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 use crate::views::{Home,Blog};
-use crate::extensions::{PostView, PageView, LoginPage, AdminDashboard};
+use crate::extensions::{PostView, PageView, LoginPage, RegisterPage, EmailVerificationPage, AdminDashboard};
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -16,6 +16,10 @@ pub enum Route {
     PageRoute { slug: String },
     #[route("/login")]
     LoginRoute {},
+    #[route("/register")]
+    RegisterRoute {},
+    #[route("/verify-email")]
+    VerifyEmailRoute {},
     #[route("/admin")]
     AdminRoute {},
 }
@@ -34,6 +38,16 @@ fn PageRoute(slug: String) -> Element {
 #[component]
 fn LoginRoute() -> Element {
     rsx! { LoginPage {} }
+}
+
+#[component]
+fn RegisterRoute() -> Element {
+    rsx! { RegisterPage {} }
+}
+
+#[component]
+fn VerifyEmailRoute() -> Element {
+    rsx! { EmailVerificationPage {} }
 }
 
 #[component]
@@ -79,6 +93,10 @@ pub fn Navbar() -> Element {
                 Link {
                     to: Route::LoginRoute {},
                     "Login"
+                }
+                Link {
+                    to: Route::RegisterRoute {},
+                    "Register"
                 }
                 Link {
                     to: Route::AdminRoute {},

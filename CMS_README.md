@@ -112,12 +112,13 @@ impl Extension for MyExtension {
 }
 ```
 
-### Default Users
+### User Registration
 
-For demo purposes, the following users are created:
+The first user to register will automatically be granted admin privileges. All subsequent users will be registered as subscribers.
 
-- **Admin**: username `admin`, password `admin123`
-- **Editor**: username `editor`, password `editor123`
+For the first user registration, a captcha question must be answered: "Who's bananabit?" (Answer: "a cool dude")
+
+All users must verify their email address before they can log in.
 
 ## 🎨 Styling
 
