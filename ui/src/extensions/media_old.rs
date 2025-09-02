@@ -1,3 +1,4 @@
+use client::time::now_iso8601;
 use dioxus::prelude::*;
 use super::{Extension, ExtensionRoute, ExtensionComponent};
 use serde::{Deserialize, Serialize};
@@ -88,7 +89,7 @@ impl Extension for MediaExtension {
             original_name: "logo.png".to_string(),
             mime_type: "image/png".to_string(),
             file_size: 15432,
-            uploaded_at: chrono::Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string(),
+            uploaded_at: now_iso8601(),
             uploaded_by: 1, // Admin user
             alt_text: Some("BananaBit CMS Logo".to_string()),
             url: "/uploads/bananabit-logo.png".to_string(),
@@ -150,7 +151,7 @@ pub fn MediaLibrary() -> Element {
                     accept: "image/*,video/*,audio/*,.pdf,.doc,.docx",
                     onchange: move |event| {
                         // Handle file upload
-                        log::info!("Files selected for upload");
+                        println!("Files selected for upload");
                     }
                 }
                 p { 
@@ -235,7 +236,7 @@ pub fn MediaPicker(on_select: EventHandler<MediaFile>) -> Element {
                             original_name: "logo.png".to_string(),
                             mime_type: "image/png".to_string(),
                             file_size: 15432,
-                            uploaded_at: chrono::Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string(),
+                            uploaded_at: now_iso8601(),
                             uploaded_by: 1,
                             alt_text: Some("BananaBit CMS Logo".to_string()),
                             url: "/uploads/bananabit-logo.png".to_string(),

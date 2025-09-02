@@ -1,7 +1,6 @@
 use sqlx::{Pool, Row, Sqlite, SqlitePool};
-use serde::{Deserialize, Serialize};
 use std::path::Path;
-use crate::extensions::{Post, User, UserRole};
+use client::{Post, User, UserRole};
 
 /// Database manager for the CMS
 pub struct Database {

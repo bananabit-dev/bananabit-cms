@@ -2,6 +2,7 @@ use dioxus::prelude::*;
 use super::{Extension, ExtensionRoute, ExtensionComponent};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use client::time::now_iso8601;
 
 /// Scheduled content entry
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -88,7 +89,7 @@ impl SchedulingExtension {
     
     /// Process pending scheduled items (would be called by a background task)
     pub fn process_pending_items(&mut self) -> Vec<u32> {
-        let now = chrono::Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string();
+        let now = now_iso8601();
         let mut processed_ids = Vec::new();
         
         for (id, item) in &mut self.scheduled_items {
@@ -96,7 +97,7 @@ impl SchedulingExtension {
                 item.status = ScheduleStatus::Processing;
                 processed_ids.push(*id);
                 // In real implementation, this would trigger the actual action
-                log::info!("Processing scheduled item {}: {:?}", id, item.action);
+                println!("Processing scheduled item {}: {:?}", id, item.action);
             }
         }
         
@@ -123,14 +124,10 @@ impl Extension for SchedulingExtension {
             id: 0,
             content_type: ContentType::Post,
             content_id: 1,
-            scheduled_at: chrono::Utc::now()
-                .checked_add_signed(chrono::Duration::days(1))
-                .unwrap()
-                .format("%Y-%m-%dT%H:%M:%SZ")
-                .to_string(),
+            scheduled_at: "2024-12-31T23:59:59Z".to_string(), // Fixed future date for demo
             action: ScheduledAction::Publish,
             status: ScheduleStatus::Pending,
-            created_at: chrono::Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string(),
+            created_at: now_iso8601(),
             created_by: 1,
         };
         

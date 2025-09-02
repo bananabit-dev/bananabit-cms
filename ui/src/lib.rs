@@ -9,8 +9,5 @@ pub use navbar::App;
 mod markdown;
 pub use markdown::Markdown;
 
-pub mod database;
-pub use database::*;
-
 pub mod extensions;
 pub use extensions::*;

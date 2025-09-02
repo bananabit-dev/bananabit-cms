@@ -1,7 +1,8 @@
 use dioxus::prelude::*;
-use super::{Extension, ExtensionRoute, ExtensionComponent};
+use super::{Extension, ExtensionRoute, ExtensionComponent, AnalyticsEvent};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use client::time::{now_iso8601, today_date};
 
 /// Analytics metric
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -101,7 +102,7 @@ impl Extension for AnalyticsExtension {
     
     fn init(&mut self) -> Result<(), Box<dyn std::error::Error>> {
         // Add some sample data
-        let today = chrono::Utc::now().format("%Y-%m-%d").to_string();
+        let today = today_date();
         
         // Sample page views
         for i in 0..50 {
@@ -122,7 +123,7 @@ impl Extension for AnalyticsExtension {
         self.record_metric(Metric {
             name: "page_load_time".to_string(),
             value: 1.2,
-            timestamp: chrono::Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string(),
+            timestamp: now_iso8601(),
             metadata: [("page".to_string(), "/".to_string())].iter().cloned().collect(),
         });
         

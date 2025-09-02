@@ -1,22 +1,8 @@
 use dioxus::prelude::*;
-use super::{Extension, ExtensionRoute, ExtensionComponent};
+use super::{Extension, ExtensionRoute, ExtensionComponent, Post};
 use crate::navbar::Route;
 use crate::Markdown;
-use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-
-/// Post data structure
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Post {
-    pub id: u32,
-    pub slug: String,
-    pub title: String,
-    pub content: String,
-    pub author: String,
-    pub created_at: String,
-    pub updated_at: String,
-    pub published: bool,
-}
 
 /// Posts extension - handles blog posts and pages
 pub struct PostsExtension {

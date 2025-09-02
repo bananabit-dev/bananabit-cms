@@ -1,7 +1,8 @@
 use dioxus::prelude::*;
-use super::{Extension, ExtensionRoute, ExtensionComponent};
+use super::{Extension, ExtensionRoute, ExtensionComponent, SeoMetadata};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use client::time::today_date;
 
 /// SEO metadata structure
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -134,14 +135,14 @@ impl Extension for SeoExtension {
         // Add default sitemap entries
         self.add_sitemap_entry(SitemapEntry {
             url: "https://bananabit.dev/".to_string(),
-            last_modified: chrono::Utc::now().format("%Y-%m-%d").to_string(),
+            last_modified: today_date(),
             change_frequency: "daily".to_string(),
             priority: 1.0,
         });
         
         self.add_sitemap_entry(SitemapEntry {
             url: "https://bananabit.dev/post/welcome-to-bananabit-cms".to_string(),
-            last_modified: chrono::Utc::now().format("%Y-%m-%d").to_string(),
+            last_modified: today_date(),
             change_frequency: "monthly".to_string(),
             priority: 0.8,
         });
