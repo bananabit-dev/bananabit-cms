@@ -32,8 +32,12 @@ FROM chef AS runtime
 
 COPY --from=builder /app/target/dx/web/release/web/ /usr/local/app
 
-# Copy all assets from ui/assets to /usr/local/app/public/assets
-COPY --from=builder /app/ui/assets/ /usr/local/app/public/assets/
+# Copy all assets from web/assets to /usr/local/app/assets
+COPY --from=builder /app/web/assets/ /usr/local/app/assets/
+
+# Copy additional assets from ui/assets (styling, images, etc.)
+COPY --from=builder /app/ui/assets/styling/ /usr/local/app/assets/styling/
+COPY --from=builder /app/ui/assets/images/ /usr/local/app/assets/images/
 
 # Create data directory for database and uploads
 RUN mkdir -p /usr/local/app/data
