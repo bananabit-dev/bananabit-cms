@@ -191,7 +191,6 @@ pub fn PostList() -> Element {
     rsx! {
         div {
             class: "post-list",
-            h2 { "Recent Posts" }
             
             div {
                 class: "post-item",
