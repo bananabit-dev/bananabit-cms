@@ -32,7 +32,7 @@ FROM chef AS runtime
 
 COPY --from=builder /app/target/dx/web/release/web/ /usr/local/app
 
-# Copy all assets from packages/ui/assets to /usr/local/app/public/assets
+# Copy all assets from ui/assets to /usr/local/app/public/assets
 COPY --from=builder /app/ui/assets/ /usr/local/app/public/assets/
 
 # Create data directory for database and uploads
