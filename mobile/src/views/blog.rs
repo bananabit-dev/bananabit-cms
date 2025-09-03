@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 #[component]
 pub fn Blog(id: i32) -> Element {
     rsx! {
-        document::Link { rel: "stylesheet", href: "assets/blog.css"}
+        document::Link { rel: "stylesheet", href: "./assets/blog.css"}
 
         div {
             id: "blog",
