@@ -12,6 +12,7 @@ resolver = "2"
 
 [workspace.dependencies]
 dioxus = { version = "0.7.0-rc.0" }
+getrandom = { version = "0.2", features = ["js"] }
 
 # workspace
 ui = { path = "ui" }
