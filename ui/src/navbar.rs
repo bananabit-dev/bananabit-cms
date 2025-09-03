@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 use crate::views::{Home,Blog};
-use crate::extensions::{PostView, PageView, LoginPage, RegisterPage, EmailVerificationPage, AdminDashboard};
+use crate::extensions::{PostView, PageView, LoginPage, RegisterPage, EmailVerificationPage};
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -52,7 +52,37 @@ fn VerifyEmailRoute() -> Element {
 
 #[component]
 fn AdminRoute() -> Element {
-    rsx! { AdminDashboard {} }
+    // Check if user is authenticated and has admin privileges
+    let auth_state = use_signal(|| None::<client::Session>);
+    
+    use_effect(move || {
+        spawn(async move {
+            // TODO: Check current session/authentication state
+            // For now, we'll just check if there's any user in the database
+            match api::is_first_user().await {
+                Ok(true) => {
+                    // No users exist yet, redirect to register
+                    dioxus::router::navigator().push("/register");
+                },
+                Ok(false) => {
+                    // Users exist, but we need to check authentication
+                    // For now, redirect to login since we don't have session management
+                    dioxus::router::navigator().push("/login");
+                },
+                Err(_) => {
+                    // Error checking users, redirect to login
+                    dioxus::router::navigator().push("/login");
+                }
+            }
+        });
+    });
+    
+    rsx! { 
+        div {
+            class: "admin-check",
+            p { "Checking authentication..." }
+        }
+    }
 }
 
 /// Shared navbar component.
