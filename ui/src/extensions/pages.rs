@@ -270,7 +270,6 @@ pub fn PageList() -> Element {
     rsx! {
         div {
             class: "page-list",
-            h2 { "Pages" }
             
             ul {
                 li { 
