@@ -4,12 +4,15 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-dioxus = { workspace = true, features = ["fullstack","router"] }
 ui = { workspace = true }
-ba-server = { workspace = true , optional = true}
 getrandom = { version = "0.2", features = ["js"] }
 
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+dioxus = { workspace = true, features = ["fullstack","router"] }
+ba-server = { workspace = true, optional = true}
+
 [target.'cfg(target_arch = "wasm32")'.dependencies]
+dioxus = { workspace = true, features = ["web","router"] }
 tokio = { version = "1.0", default-features = false }
 
 
