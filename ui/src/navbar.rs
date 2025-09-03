@@ -1,6 +1,7 @@
 use dioxus::prelude::*;
 use crate::views::{Home,Blog};
 use crate::extensions::{PostView, PageView, LoginPage, RegisterPage, EmailVerificationPage};
+use api::is_first_user;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
