@@ -12,8 +12,8 @@ fn main() {
 
         // --- Build Axum Router ---
         let app = Router::new()
-            // Serve static assets from public/assets (matches your bundle structure)
-            .nest_service("/assets", get_service(ServeDir::new("assets")))
+            // Serve static assets from ba-server/assets directory
+            .nest_service("/assets", get_service(ServeDir::new("ba-server/assets")))
             // IMPORTANT: Dioxus needs to handle all routes for SPA
             .serve_dioxus_application(
                 ServeConfig::builder()
