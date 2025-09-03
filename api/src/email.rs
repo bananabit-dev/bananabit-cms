@@ -1,6 +1,6 @@
 use lettre::{
     message::{header::ContentType, MultiPart, SinglePart},
-    transport::smtp::authentication::Credentials,
+    transport::smtp::{authentication::Credentials, client::{Tls, TlsParameters}},
     AsyncSmtpTransport, AsyncTransport, Message, Tokio1Executor,
 };
 use std::env;
@@ -26,9 +26,21 @@ impl EmailService {
         let from_name = env::var("FROM_NAME").unwrap_or_else(|_| "BananaBit CMS".to_string());
         let base_url = env::var("BASE_URL").unwrap_or_else(|_| "http://localhost:8080".to_string());
 
-        // Build SMTP transport
-        let mut transport = AsyncSmtpTransport::<Tokio1Executor>::builder_dangerous(&smtp_host)
-            .port(smtp_port);
+        // Build SMTP transport with proper TLS for production email providers
+        let mut transport = if smtp_port == 465 {
+            // Use implicit TLS for port 465
+            AsyncSmtpTransport::<Tokio1Executor>::relay(&smtp_host)?
+                .port(smtp_port)
+                .tls(Tls::Wrapper(TlsParameters::new(smtp_host.clone())?))
+        } else if smtp_port == 587 || smtp_port == 25 {
+            // Use STARTTLS for port 587 (standard) and 25
+            AsyncSmtpTransport::<Tokio1Executor>::starttls_relay(&smtp_host)?
+                .port(smtp_port)
+        } else {
+            // For development (port 1025 etc), use dangerous builder
+            AsyncSmtpTransport::<Tokio1Executor>::builder_dangerous(&smtp_host)
+                .port(smtp_port)
+        };
 
         // Add authentication if credentials are provided
         if !smtp_username.is_empty() && !smtp_password.is_empty() {

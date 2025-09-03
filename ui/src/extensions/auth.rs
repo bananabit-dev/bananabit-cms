@@ -1,6 +1,7 @@
 use dioxus::prelude::*;
 use super::{Extension, ExtensionRoute, ExtensionComponent, User, UserRole, Session};
 use std::collections::HashMap;
+use api::{register_user, authenticate_user, verify_email, is_first_user};
 
 /// Authentication extension - handles user auth and sessions
 pub struct AuthExtension {
@@ -248,12 +249,24 @@ pub fn LoginForm() -> Element {
             return;
         }
         
-        // In a real implementation, this would call the auth extension
-        if username() == "admin" && password() == "admin123" {
-            success.set(true);
-        } else {
-            error.set("Invalid credentials".to_string());
-        }
+        // Call the backend authentication function
+        spawn(async move {
+            match authenticate_user(username(), password()).await {
+                Ok(session) => {
+                    if session.authenticated {
+                        success.set(true);
+                        // TODO: Store session in global state/context
+                        // Navigate to admin dashboard or home page
+                        dioxus::router::navigator().push("/admin");
+                    } else {
+                        error.set("Authentication failed".to_string());
+                    }
+                },
+                Err(e) => {
+                    error.set(format!("Login failed: {}", e));
+                }
+            }
+        });
     };
     
     rsx! {
@@ -325,7 +338,21 @@ pub fn RegisterForm() -> Element {
     let mut captcha_answer = use_signal(|| String::new());
     let mut error = use_signal(|| String::new());
     let mut success = use_signal(|| false);
-    let show_captcha = use_signal(|| true); // In real app, this would check if first user
+    let mut show_captcha = use_signal(|| false); // Will be determined by checking first user status
+    
+    // Check if this is the first user registration
+    use_effect(move || {
+        spawn(async move {
+            match is_first_user().await {
+                Ok(is_first) => {
+                    show_captcha.set(is_first);
+                },
+                Err(_) => {
+                    show_captcha.set(false);
+                }
+            }
+        });
+    });
     
     let on_submit = move |evt: FormEvent| {
         evt.prevent_default();
@@ -346,8 +373,23 @@ pub fn RegisterForm() -> Element {
             return;
         }
         
-        // In a real implementation, this would call the auth extension register_user method
-        success.set(true);
+        // Call the backend registration function
+        spawn(async move {
+            let captcha_value = if show_captcha() && !captcha_answer().is_empty() {
+                Some(captcha_answer())
+            } else {
+                None
+            };
+            
+            match register_user(username(), email(), password(), captcha_value).await {
+                Ok(_message) => {
+                    success.set(true);
+                },
+                Err(e) => {
+                    error.set(format!("Registration failed: {}", e));
+                }
+            }
+        });
     };
     
     rsx! {
@@ -470,8 +512,17 @@ pub fn EmailVerificationPage() -> Element {
             return;
         }
         
-        // In a real implementation, this would call the auth extension verify_email method
-        success.set(true);
+        // Call the backend email verification function
+        spawn(async move {
+            match verify_email(verification_token()).await {
+                Ok(_message) => {
+                    success.set(true);
+                },
+                Err(e) => {
+                    error.set(format!("Email verification failed: {}", e));
+                }
+            }
+        });
     };
     
     rsx! {
