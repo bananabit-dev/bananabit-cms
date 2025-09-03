@@ -21,9 +21,9 @@ pub fn Blog(id: i32) -> Element {
     let image_base_path = "/assets/images";
 
     rsx! {
-        document::Link { rel: "stylesheet", href: "/./assets/blog.css"}
-        document::Link { rel: "stylesheet", href: "/./assets/styling/markdown.css"}
-        document::Link { rel: "stylesheet", href: "/./assets/styling/syntax.css"}
+        document::Link { rel: "stylesheet", href: "/assets/blog.css"}
+        document::Link { rel: "stylesheet", href: "/assets/styling/markdown.css"}
+        document::Link { rel: "stylesheet", href: "/assets/styling/syntax.css"}
 
         div {
             id: "blog",
