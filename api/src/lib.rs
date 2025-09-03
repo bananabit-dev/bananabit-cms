@@ -1,11 +1,17 @@
 //! This crate contains all shared fullstack server functions.
 use dioxus::prelude::*;
 use client::{Post, User, Session, UserRole};
+
+#[cfg(not(target_arch = "wasm32"))]
 use sqlx::Row;
 
+#[cfg(not(target_arch = "wasm32"))]
 mod database;
+#[cfg(not(target_arch = "wasm32"))]
 mod email;
+#[cfg(not(target_arch = "wasm32"))]
 use database::Database;
+#[cfg(not(target_arch = "wasm32"))]
 use email::EmailService;
 
 /// Echo the user input on the server.

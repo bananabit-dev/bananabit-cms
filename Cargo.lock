@@ -5914,6 +5914,7 @@ dependencies = [
  "client",
  "dioxus",
  "futures",
+ "getrandom 0.2.16",
  "gloo-net",
  "pulldown-cmark",
  "reqwest",
