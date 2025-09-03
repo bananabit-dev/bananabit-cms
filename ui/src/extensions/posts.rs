@@ -140,7 +140,7 @@ pub fn PostView(slug: String) -> Element {
         async move {
             // This is a simplified version - in reality we'd get this from the extension manager
             if slug_copy == "welcome-to-bananabit-cms" || slug_copy == "0" {
-                gloo_net::http::Request::get("/./assets/blog/0.md")
+                gloo_net::http::Request::get("/assets/blog/0.md")
                     .send()
                     .await
                     .unwrap()
@@ -156,9 +156,9 @@ pub fn PostView(slug: String) -> Element {
     let image_base_path = "/assets/images";
 
     rsx! {
-        document::Link { rel: "stylesheet", href: "/./assets/blog.css"}
-        document::Link { rel: "stylesheet", href: "/./assets/styling/markdown.css"}
-        document::Link { rel: "stylesheet", href: "/./assets/styling/syntax.css"}
+        document::Link { rel: "stylesheet", href: "/assets/blog.css"}
+        document::Link { rel: "stylesheet", href: "/assets/styling/markdown.css"}
+        document::Link { rel: "stylesheet", href: "/assets/styling/syntax.css"}
 
         div {
             id: "post",
