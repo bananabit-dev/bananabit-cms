@@ -11,9 +11,16 @@ fn main() {
         info!("🚀 Starting web server on http://{}", addr);
 
         // --- Build Axum Router ---
+        // Determine the correct assets path - check if we're in Docker or local development
+        let assets_path = if std::path::Path::new("assets").exists() {
+            "assets" // Docker deployment path
+        } else {
+            "ba-server/assets" // Local development path
+        };
+        
         let app = Router::new()
-            // Serve static assets from ba-server/assets directory
-            .nest_service("/assets", get_service(ServeDir::new("ba-server/assets")))
+            // Serve static assets from the appropriate directory
+            .nest_service("/assets", get_service(ServeDir::new(assets_path)))
             // IMPORTANT: Dioxus needs to handle all routes for SPA
             .serve_dioxus_application(
                 ServeConfig::builder()
