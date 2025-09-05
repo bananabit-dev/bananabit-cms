@@ -73,7 +73,28 @@ fly secrets set FROM_NAME="Your Site Name"
 
 # Deploy your app
 fly deploy
+
+# Verify deployment (optional)
+./verify-css-deployment.sh
 ```
+
+### Verify Deployment
+
+After deployment, you can verify that CSS is loading correctly:
+
+```bash
+# Test CSS loading on your deployed site
+./verify-css-deployment.sh https://your-app.fly.dev
+
+# Or use the default URL
+./verify-css-deployment.sh
+```
+
+This script will:
+- Test accessibility of all CSS files
+- Verify correct content types
+- Check that the main application loads
+- Provide troubleshooting guidance if issues are found
 
 ### Email Provider Configuration
 

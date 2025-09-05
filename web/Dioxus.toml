@@ -9,7 +9,13 @@ title = "bananabit"
 [web.resource]
 
 # Additional CSS style files
-style = []
+style = [
+    "assets/main.css",
+    "assets/components.css", 
+    "assets/blog.css",
+    "assets/markdown.css",
+    "assets/syntax.css"
+]
 
 # Additional JavaScript files
 script = []
